@@ -6,3 +6,8 @@ SDL_Texture* charger_image (const char* nomfichier, SDL_Renderer* renderer){
     return res;
     
 }
+SDL_Texture* charger_texte(const char* message, SDL_Renderer* renderer, TTF_Font *font, SDL_Color color){
+    SDL_Surface* text = TTF_RenderText_Solid(font, message, color);
+    SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, text);
+    return t;
+}

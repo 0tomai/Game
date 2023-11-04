@@ -1,9 +1,10 @@
 CC = gcc
-CFLAGS = -W -Wall -ansi -std=c99
+CFLAGS = -W -Wall -ansi -std=c99 -g
 LIBS = -L./SDL2_ttf/.libs
-LDFLAGS = `sdl2-config --cflags --libs`
+LDFLAGS = `sdl2-config --cflags --libs` -lSDL2_ttf
+INCLUDES = -I./SDL2_ttf
 EXEC = main
-SRC = src/main.c src/image.c
+SRC = src/main.c src/image.c src/menu.c
 OBJ = $(SRC:.c=.o)
 all: $(EXEC)
 main: $(OBJ)
@@ -11,6 +12,6 @@ main: $(OBJ)
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 clean:
-	rm -rf *.o *~
+	rm -rf *.o *~ src/*.o 
 mrproper: clean
 	rm -rf $(EXEC)
