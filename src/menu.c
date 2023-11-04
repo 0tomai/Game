@@ -46,3 +46,10 @@ void refresh_menu(SDL_Renderer* r, menu_t* m){
 
         SDL_RenderPresent(r);
 }
+
+void free_menu(menu_t* m){
+    SDL_DestroyTexture(m->fond);
+    SDL_DestroyTexture(m->j);
+    SDL_DestroyTexture(m->c);
+    free(m);
+}

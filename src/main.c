@@ -103,8 +103,8 @@ int main()
     }
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);
+    free_menu(m);
     SDL_DestroyRenderer(ecran);
-
     SDL_DestroyWindow(window);
     //Quit:
     SDL_Quit();

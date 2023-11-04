@@ -22,4 +22,6 @@ SDL_Renderer* init_menu(SDL_Window* f, menu_t* m);
     
 void refresh_menu(SDL_Renderer* f, menu_t* m);
 
+void free_menu(menu_t* m);
+
 #endif
