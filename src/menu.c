@@ -7,7 +7,7 @@ SDL_Renderer* init_menu(SDL_Window* f, menu_t* m){
 
     // Charger l’image
 
-
+    m->state = 0;
     m->fond = charger_image("src/fond_menu.bmp", r);
 
 
@@ -52,4 +52,28 @@ void free_menu(menu_t* m){
     SDL_DestroyTexture(m->j);
     SDL_DestroyTexture(m->c);
     free(m);
+}
+
+void handle_menu(SDL_Event* e, menu_t* m){
+    //SDL_PollEvent(&e);
+    int mx=0, my=0;
+    switch (e->type)
+    {
+        case SDL_MOUSEBUTTONDOWN: //gestion souris
+                if (e->button.button == SDL_BUTTON_LEFT)
+                {
+                    SDL_GetMouseState(&mx, &my);
+                    if ((mx >= 490 && mx <= 790) && (my >= 200 && my <= 300))
+                    {
+                        m->state = 1;
+                        printf("Jouer, etat menu: %d\n", m->state);
+                    }
+                    if ((mx >= 490 && mx <= 790) && (my >= 400 && my <= 500))
+                    {
+                        m->state = 2;
+                        printf("Crédit, etat menu: %d\n", m->state);
+                    }
+                }
+                break;
+    }
 }

@@ -52,7 +52,7 @@ int main()
 
     bool terminer = false;
     SDL_Event evenements;
-    int i = 0;
+    int i = 0; //mx=0, my=0;
     while(!terminer){
         
         refresh_menu(ecran, m);
@@ -67,16 +67,26 @@ int main()
         // SDL_RenderCopy(ecran, c, NULL, &credit);
         i = i+1;
         // SDL_RenderPresent(ecran);
+        
         SDL_PollEvent( &evenements );
+                    handle_menu(&evenements, m);
+
         switch(evenements.type)
         {
-            
-            case SDL_MOUSEBUTTONDOWN:
-                if (evenements.button.button == SDL_BUTTON_LEFT)
-                {
-                    printf("%d\n", i);
-                }
-                break;
+            // case SDL_MOUSEBUTTONDOWN: //gestion souris
+            //     if (evenements.button.button == SDL_BUTTON_LEFT)
+            //     {
+            //         SDL_GetMouseState(&mx, &my);
+            //         if ((mx >= 490 && mx <= 790) && (my >= 200 && my <= 300))
+            //         {
+            //             printf("Jouer, nombre de frames: %d\n", i);
+            //         }
+            //         if ((mx >= 490 && mx <= 790) && (my >= 400 && my <= 500))
+            //         {
+            //             printf("Crédit, nombre de frames: %d\n", i);
+            //         }
+            //     }
+            //     break;
 
             case SDL_QUIT:
                 terminer = true; 
