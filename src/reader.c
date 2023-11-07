@@ -38,19 +38,8 @@ void tailleFichier(int* nbCol, int* maxLigne)
         }
         c = fgetc(f);
     }
-    fclose(f);
     max = max-1;
     colone = colone-1;
     *nbCol = colone;
     *maxLigne = max;
 }
-
-
-
-
-int main(int argc, char const *argv[])
-    {
-        int** tab = remplirTableau(5, 5);
-        
-        return 0;
-    }

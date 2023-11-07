@@ -5,14 +5,13 @@
 
 int main()
 {
-    int nbCol;
-    int maxLigne;
+    int nbCol = 0;
+    int maxLigne= 0;
     SDL_Renderer* ecran2;
     tailleFichier(&nbCol, &maxLigne);
+    printf("%d, %d", nbCol, maxLigne);
     return 0;
-    SDL_Renderer* ecran2;
-    read(ecran2);
-    return 0;
+
     SDL_Window *window = NULL;
     int statut = EXIT_FAILURE;
 
