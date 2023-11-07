@@ -107,8 +107,7 @@ int main()
                             break;
                         break;
                     break;
-                }
-                
+                }  
         }
     }
     statut = EXIT_SUCCESS;
