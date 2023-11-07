@@ -1,6 +1,7 @@
 #include "image.h"
 #include "menu.h"
 #include <stdbool.h>
+#include "reader.h"
 
 int main()
 {
@@ -51,6 +52,7 @@ int main()
     // SDL_QueryTexture(c, NULL, NULL, NULL, NULL);
 
     bool terminer = false;
+    read(ecran);
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     while(!terminer){
