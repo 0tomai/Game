@@ -5,6 +5,11 @@
 
 int main()
 {
+    int nbCol;
+    int maxLigne;
+    SDL_Renderer* ecran2;
+    tailleFichier(&nbCol, &maxLigne);
+    return 0;
     SDL_Renderer* ecran2;
     read(ecran2);
     return 0;
