@@ -5,6 +5,9 @@
 
 int main()
 {
+    SDL_Renderer* ecran2;
+    read(ecran2);
+    return 0;
     SDL_Window *window = NULL;
     int statut = EXIT_FAILURE;
 
@@ -52,7 +55,7 @@ int main()
     // SDL_QueryTexture(c, NULL, NULL, NULL, NULL);
 
     bool terminer = false;
-    read(ecran);
+    //
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     while(!terminer){
