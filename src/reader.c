@@ -5,21 +5,27 @@
 #include "image.h"
 //fontion taille fichier
 
-//fonction remplir tableau
-
+int** remplirTableau(int l, int c){
+    int **tab = malloc(l * sizeof(int*));
+    for (int i = 0; i < l; i++) {
+        tab[i] = malloc(c * sizeof(int));
+    } 
+    return tab;
+}
+/*
 void read(SDL_Renderer* renderer) {
 
     char c;
     FILE* f;
     f = fopen("src/map.txt", "r");
-    /*c = fgetc(f);
+    c = fgetc(f);
     while (c != EOF) {
          printf("%c", c);
         c = fgetc(f);
 
          
     }
-    exit(0);*/
+    exit(0);
     int x = 0; 
     int y = 0; 
 
@@ -49,4 +55,14 @@ void read(SDL_Renderer* renderer) {
     
 
     fclose(f);
+
+
+    
 }
+*/
+int main(int argc, char const *argv[])
+    {
+        int** tab = remplirTableau(5, 5);
+        
+        return 0;
+    }

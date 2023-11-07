@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void tailleFichier();
+
+int** remplirTableau(int l, int c);
+
 void read(SDL_Renderer* renderer);
 
 #endif
