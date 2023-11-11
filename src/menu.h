@@ -20,11 +20,16 @@ struct menu
 }; typedef struct menu menu_t;
 
 SDL_Renderer* init_menu(SDL_Window* f, menu_t* m);
+
+SDL_Renderer* back2menu(menu_t* m, SDL_Renderer* r);
+
     
 void refresh_menu(SDL_Renderer* f, menu_t* m);
 
 void free_menu(menu_t* m);
 
 void handle_menu(SDL_Event* e, menu_t* m);
+
+
 
 #endif

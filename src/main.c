@@ -1,13 +1,13 @@
 #include "image.h"
 #include "menu.h"
-#include <stdbool.h>
 #include "reader.h"
+#include "credit.h"
+#include <stdbool.h>
 
 int main()
 {
     int nbCol = 0;
     int nbLigne= 0;
-    SDL_Renderer* ecran2;
     tailleFichier(&nbCol, &nbLigne);
     //printf("%d %d", nbCol, nbLigne);
 
@@ -24,7 +24,6 @@ int main()
 
 
 
-    return 0;
 
 
     SDL_Window *window = NULL;
@@ -47,7 +46,14 @@ int main()
 
     menu_t* m = malloc(sizeof(menu_t));
 
+    credit_t* c = malloc(sizeof(credit_t));
+
+    c->state = -1;
+
+    printf("%d", c->state);
+
     ecran = init_menu(window, m);
+
     // ecran = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     // // Charger l’image
@@ -74,12 +80,31 @@ int main()
     // SDL_QueryTexture(c, NULL, NULL, NULL, NULL);
 
     bool terminer = false;
-    //
+    
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     while(!terminer){
+        if (m->state == 0)
+        {
+            refresh_menu(ecran, m);
+        }
+        //printf("%d", m->state);
+        if (m->state == 2 && c->state == -1)
+        {
+            ecran = init_credit(c, ecran);
+        }
+        if (c->state == 0)
+        {
+            refresh_credit(ecran, c);
+        }
+        if (c->state == 1)
+        {
+            back2menu(m, ecran);
+            c->state = -1;
+        }
         
-        refresh_menu(ecran, m);
+        
+        
         //SDL_Delay(20);
         
         // SDL_RenderClear(ecran);
@@ -93,7 +118,17 @@ int main()
         // SDL_RenderPresent(ecran);
         
         SDL_PollEvent( &evenements );
-                    handle_menu(&evenements, m);
+        if (m->state == 0)
+        {
+            handle_menu(&evenements, m);
+        }
+        if (c->state == 0 || c->state == 2)
+        {
+            handle_credit(&evenements, c);
+        }
+        
+        
+        
 
         switch(evenements.type)
         {
