@@ -3,22 +3,13 @@
 #include <SDL2/SDL.h>
 #include "reader.h"
 #include "image.h"
-//fontion taille fichier
-
-int** remplirTableau(int l, int c){
-    int **tab = malloc(l * sizeof(int*));
-    for (int i = 0; i < l; i++) {
-        tab[i] = malloc(c * sizeof(int));
-    } 
-    return tab;
-}
 
 
-void tailleFichier(int* nbCol, int* maxLigne)
+void tailleFichier(int* nbLigne, int* nbCol)
 {
     int taille = 0;
     int max = 0;
-    int colone = 0;
+    int colonne = 0;
     char c;
     FILE* f;
     f = fopen("src/map.txt", "r");
@@ -33,7 +24,7 @@ void tailleFichier(int* nbCol, int* maxLigne)
         
         if(c == '\n')
         {
-            colone ++;
+            colonne ++;
             if(max < taille)
             {
                 max = taille;
@@ -44,7 +35,7 @@ void tailleFichier(int* nbCol, int* maxLigne)
     }
     if (c == EOF)
     {
-        colone ++;
+        colonne ++;
             if(max < taille)
             {
                 max = taille;
@@ -52,7 +43,40 @@ void tailleFichier(int* nbCol, int* maxLigne)
     }
     
     max = max;
-    colone = colone;
-    *nbCol = colone;
-    *maxLigne = max;
+    colonne = colonne;
+    *nbCol = colonne;
+    *nbLigne = max;
+}
+
+int** init_tab(int l, int c){
+    int **tab = malloc(l * sizeof(int*));
+    for (int i = 0; i < l; i++) {
+        tab[i] = malloc(c * sizeof(int));
+    } 
+    
+    return tab;
+}
+
+void fill_tab(int ** tab){
+    char entry;
+    FILE* f;
+    f = fopen("src/map.txt", "r");
+    entry = fgetc(f);
+    int i = 0, j = 0;
+    while(entry != EOF)
+    {
+        if (entry != '\n')
+        {
+            tab[i][j] = entry-48;
+            j++;
+        }
+        else
+        {
+            i++;
+            j=0;
+        }
+        entry = fgetc(f);
+
+        
+    }
 }

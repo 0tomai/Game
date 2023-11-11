@@ -6,12 +6,26 @@
 int main()
 {
     int nbCol = 0;
-    int maxLigne= 0;
+    int nbLigne= 0;
     SDL_Renderer* ecran2;
-    tailleFichier(&nbCol, &maxLigne);
-    printf("%d %d", nbCol, maxLigne);
+    tailleFichier(&nbCol, &nbLigne);
+    //printf("%d %d", nbCol, nbLigne);
+
+    int** tab = init_tab(nbLigne, nbCol);
+    fill_tab(tab);
+    for (int i = 0; i < nbLigne; i++)
+    {
+        for (int j = 0; j < nbCol; j++)
+        {
+            printf("%d", tab[i][j]);
+        }        
+        printf("\n");
+    }
+
+
+
     return 0;
-    
+
 
     SDL_Window *window = NULL;
     int statut = EXIT_FAILURE;

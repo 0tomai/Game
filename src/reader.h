@@ -5,9 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void tailleFichier(int* nbCol, int* maxLigne);
+void tailleFichier(int* nbLigne, int* nbCol);
 
-int** remplirTableau(int l, int c);
+int** init_tab(int l, int c);
+
+void fill_tab(int** tab);
 
 void read(SDL_Renderer* renderer);
 
