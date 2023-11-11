@@ -26,7 +26,11 @@ void tailleFichier(int* nbCol, int* maxLigne)
 
     while(c != EOF)
     {
-        taille ++;
+        if (c != '\n')
+        {
+            taille ++;
+        }
+        
         if(c == '\n')
         {
             colone ++;
@@ -38,8 +42,17 @@ void tailleFichier(int* nbCol, int* maxLigne)
         }
         c = fgetc(f);
     }
-    max = max-1;
-    colone = colone-1;
+    if (c == EOF)
+    {
+        colone ++;
+            if(max < taille)
+            {
+                max = taille;
+            }
+    }
+    
+    max = max;
+    colone = colone;
     *nbCol = colone;
     *maxLigne = max;
 }

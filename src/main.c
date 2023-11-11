@@ -9,8 +9,9 @@ int main()
     int maxLigne= 0;
     SDL_Renderer* ecran2;
     tailleFichier(&nbCol, &maxLigne);
-    printf("%d, %d", nbCol, maxLigne);
+    printf("%d %d", nbCol, maxLigne);
     return 0;
+    
 
     SDL_Window *window = NULL;
     int statut = EXIT_FAILURE;

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void tailleFichier();
+void tailleFichier(int* nbCol, int* maxLigne);
 
 int** remplirTableau(int l, int c);
 
