@@ -10,9 +10,9 @@ SDL_Renderer* init_credit(credit_t* m, SDL_Renderer* r){
     m->fond = charger_image("telechargement.bmp", r);
 
 
-    m->jouer.h = 100;
-    m->jouer.w = 300;
-    m->jouer.x = 490;
+    m->jouer.h = 60;
+    m->jouer.w = 800;
+    m->jouer.x = 225;
     m->jouer.y = 200;
     m->credit.h = 100;
     m->credit.w = 300;
@@ -26,7 +26,7 @@ SDL_Renderer* init_credit(credit_t* m, SDL_Renderer* r){
     m->font = TTF_OpenFont("src/arial.ttf",28);
     SDL_Color cc = {0, 0, 0, 0};
     m->color = cc;
-    m->j = charger_texte("Placeholder", r, m->font, m->color);
+    m->j = charger_texte("Un jeu incroyable cree par des gens incroyables !", r, m->font, m->color);
     m->c = charger_texte("Retour", r, m->font, m->color);
     SDL_QueryTexture(m->j, NULL, NULL, NULL, NULL);
     SDL_QueryTexture(m->c, NULL, NULL, NULL, NULL);
@@ -37,8 +37,11 @@ void refresh_credit(SDL_Renderer* r, credit_t* c){
         SDL_Delay(33);
         SDL_RenderClear(r);
         SDL_RenderCopy(r, c->fond, NULL, NULL);
-        SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+        SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(r, 255, 255, 255, 100);
         SDL_RenderFillRect(r, &c->jouer); 
+        SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+
         SDL_RenderFillRect(r, &c->credit);
         SDL_RenderCopy(r, c->j, NULL, &c->jouer);
         SDL_RenderCopy(r, c->c, NULL, &c->credit);

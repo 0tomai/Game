@@ -2,7 +2,7 @@
 #include "image.h"
 
 
-SDL_Renderer* init_menu(SDL_Window* f, menu_t* m){
+SDL_Renderer* init_renderer(SDL_Window* f, menu_t* m){
     SDL_Renderer* r = SDL_CreateRenderer(f, -1, SDL_RENDERER_ACCELERATED);
 
     // Charger l’image

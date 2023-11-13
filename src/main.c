@@ -48,7 +48,7 @@ int main()
 
     printf("%d", c->state);
 
-    ecran = init_menu(window, m);
+    ecran = init_renderer(window, m);
 
     bool terminer = false;
     
@@ -117,6 +117,7 @@ int main()
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);
     free_menu(m);
+    free_credit(c);
     SDL_DestroyRenderer(ecran);
     SDL_DestroyWindow(window);
     //Quit:
