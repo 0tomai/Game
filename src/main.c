@@ -22,10 +22,6 @@ int main()
         printf("\n");
     }
 
-
-
-
-
     SDL_Window *window = NULL;
     int statut = EXIT_FAILURE;
 
@@ -54,31 +50,6 @@ int main()
 
     ecran = init_menu(window, m);
 
-    // ecran = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-    // // Charger l’image
-    // SDL_Texture* fond = charger_image("src/fond_menu.bmp", ecran);
-    // SDL_Rect jouer, credit;
-    // jouer.h = 100;
-    // jouer.w = 300;
-    // jouer.x = 490;
-    // jouer.y = 200;
-    // credit.h = 100;
-    // credit.w = 300;
-    // credit.x = 490;
-    // credit.y = 400;
-    
-    // //SDL_SetRenderDrawColor(ecran, 255, 0, 0, 255);
-    // //SDL_RenderFillRect(ecran, &jouer); 
-    // //SDL_RenderFillRect(ecran, &credit);  
-    // TTF_Init();
-    // TTF_Font *font = TTF_OpenFont("src/arial.ttf",28);
-    // SDL_Color color = {0,0,0,0};
-    // SDL_Texture* j = charger_texte("Jouer", ecran, font, color);
-    // SDL_Texture* c = charger_texte("Credits", ecran, font, color);
-    // SDL_QueryTexture(j, NULL, NULL, NULL, NULL);
-    // SDL_QueryTexture(c, NULL, NULL, NULL, NULL);
-
     bool terminer = false;
     
     SDL_Event evenements;
@@ -102,20 +73,8 @@ int main()
             back2menu(m, ecran);
             c->state = -1;
         }
-        
-        
-        
-        //SDL_Delay(20);
-        
-        // SDL_RenderClear(ecran);
-        // SDL_RenderCopy(ecran, fond, NULL, NULL);
-        // SDL_SetRenderDrawColor(ecran, 255, 0, 0, 255);
-        // SDL_RenderFillRect(ecran, &jouer); 
-        // SDL_RenderFillRect(ecran, &credit);
-        // SDL_RenderCopy(ecran, j, NULL, &jouer);
-        // SDL_RenderCopy(ecran, c, NULL, &credit);
+
         i = i+1;
-        // SDL_RenderPresent(ecran);
         
         SDL_PollEvent( &evenements );
         if (m->state == 0)
@@ -132,20 +91,6 @@ int main()
 
         switch(evenements.type)
         {
-            // case SDL_MOUSEBUTTONDOWN: //gestion souris
-            //     if (evenements.button.button == SDL_BUTTON_LEFT)
-            //     {
-            //         SDL_GetMouseState(&mx, &my);
-            //         if ((mx >= 490 && mx <= 790) && (my >= 200 && my <= 300))
-            //         {
-            //             printf("Jouer, nombre de frames: %d\n", i);
-            //         }
-            //         if ((mx >= 490 && mx <= 790) && (my >= 400 && my <= 500))
-            //         {
-            //             printf("Crédit, nombre de frames: %d\n", i);
-            //         }
-            //     }
-            //     break;
 
             case SDL_QUIT:
                 terminer = true; 
