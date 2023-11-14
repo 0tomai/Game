@@ -83,7 +83,8 @@ void reading(SDL_Renderer* renderer) {
 
     int** tab = init_tab(nbLigne, nbCol);
     fill_tab(tab);
-
+    printf("%d", nbCol);
+    printf("%d", nbLigne);
     SDL_Texture* texture = charger_image("src/terrain.bmp", renderer);
     if (texture == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
