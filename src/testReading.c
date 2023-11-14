@@ -1,20 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "reader.h" 
+#include "reader.h"
+#include "player.h"
 #include "SDL2/SDL.h"  
 
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window *window = SDL_CreateWindow("Test Reading Function", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+    SDL_Window *window = SDL_CreateWindow("Test Reading Function", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 
     reading(renderer);
 
+    player_t *p = malloc(sizeof(player_t));
+    
+    p = initPlayer(p, 20, 20);
+
+    printPlayer(p, renderer);
+
+
     SDL_RenderPresent(renderer);
     
-    SDL_Delay(50000000);
+    SDL_Delay(5000);
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
