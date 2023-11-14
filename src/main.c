@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "reader.h"
 #include "credit.h"
+#include "jeu.h"
 #include <stdbool.h>
 
 int main()
@@ -44,9 +45,13 @@ int main()
 
     credit_t* c = malloc(sizeof(credit_t));
 
+    jeu_t* game = malloc(sizeof(jeu_t));
+
     c->state = -1;
 
-    printf("%d", c->state);
+    game->state = -1;
+
+    //printf("%d", c->state);
 
     ecran = init_renderer(window, m);
 
@@ -64,6 +69,11 @@ int main()
         {
             ecran = init_credit(c, ecran);
         }
+        if (m->state == 1 && game->state == -1)
+        {
+            ecran = init_jeu(game, ecran);
+        }
+        
         if (c->state == 0)
         {
             refresh_credit(ecran, c);
@@ -73,6 +83,18 @@ int main()
             back2menu(m, ecran);
             c->state = -1;
         }
+        if (game->state == 0)
+        {
+            refresh_jeu(ecran, game);
+        }
+        if (game->state == 1)
+        {
+            back2menu(m, ecran);
+            game->state = -1;
+        }
+        
+        
+
 
         i = i+1;
         
@@ -81,10 +103,15 @@ int main()
         {
             handle_menu(&evenements, m);
         }
-        if (c->state == 0 || c->state == 2)
+        if (c->state == 0 && m->state == 2)
         {
             handle_credit(&evenements, c);
         }
+        if (game->state == 0 && m->state == 1)
+        {
+            handle_jeu(&evenements, game);
+        }
+        
         
         
         
@@ -99,9 +126,9 @@ int main()
             case SDL_KEYDOWN:
                 switch(evenements.key.keysym.sym)
                 {
-                    case SDLK_RIGHT:
-                        printf("%d\n", i);
-                        break;
+                    // case SDLK_RIGHT:
+                    //     printf("%d\n", i);
+                    //     break;
                     case SDLK_0:
                         terminer = false;
                         break;
