@@ -8,6 +8,7 @@ struct jeu
     //SDL_Texture* j;
     //SDL_Texture* c;
     SDL_Texture* fond;
+    //player_t* p;
     //TTF_Font* font;
     //SDL_Color color;
     //SDL_Rect jouer, credit;
