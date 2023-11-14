@@ -83,8 +83,8 @@ void reading(SDL_Renderer* renderer) {
 
     int** tab = init_tab(nbLigne, nbCol);
     fill_tab(tab);
-    printf("%d", nbCol);
-    printf("%d", nbLigne);
+    //printf("%d", nbCol);
+    //printf("%d", nbLigne);
     SDL_Texture* texture = charger_image("src/terrain.bmp", renderer);
     if (texture == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
@@ -105,13 +105,12 @@ void reading(SDL_Renderer* renderer) {
                     SDL_RenderCopy(renderer, texture, NULL, &destRect);
                     break;
                 case 2:
-                    printf("%d", tab[i][j]);
+                    //printf("%d", tab[i][j]);
                     break;
                 default:
-                    printf("0");
             }
         }
-        printf("\n");
+        // printf("\n");
     }
 
     for (int i = 0; i < nbLigne; i++) {
