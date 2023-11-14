@@ -5,12 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "image.h"
+
 void tailleFichier(int* nbLigne, int* nbCol);
 
 int** init_tab(int l, int c);
 
 void fill_tab(int** tab);
 
-void read(SDL_Renderer* renderer);
+void reading(SDL_Renderer* renderer);
 
 #endif
