@@ -4,6 +4,7 @@ player_t* initPlayer(player_t *p, int x, int y)
 {
     p->posX = x;
     p->posY = y;
+    p->velocity = 50;
     return p;
 }
 void printPlayer(player_t *p, SDL_Renderer* renderer)
@@ -18,4 +19,9 @@ void printPlayer(player_t *p, SDL_Renderer* renderer)
         destRect.y = p->posY;
 
     SDL_RenderCopy(renderer, texture, NULL, &destRect);
+}
+
+void move(player_t *p, int dir)
+{
+    p->posX += p->velocity;
 }
