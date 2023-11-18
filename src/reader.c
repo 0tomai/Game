@@ -117,7 +117,7 @@ void reading(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Texture* c, char 
                     r[pos].h =32;
                     r[pos].w =32;
                     r[pos].x = posx;
-                    r[pos].y = poys;
+                    r[pos].y = poys-720;
                     pos++;
 
                     break;

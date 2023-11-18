@@ -43,9 +43,15 @@ void handle_jeu(SDL_Event* e, jeu_t* c, SDL_Rect* rec, int nbUn){
                 case SDLK_LEFT:
                     printf("going left\n");
                     update(rec, nbUn, 1);
-
                     break;
-
+                case SDLK_UP:
+                    printf("going up\n");
+                    update(rec, nbUn, 2);
+                    break;
+                case SDLK_DOWN:
+                    printf("going down\n");
+                    update(rec, nbUn, 3);
+                    break;
                 case SDLK_SPACE:
                     printf("jump\n");
                     break;
@@ -67,6 +73,16 @@ void update(SDL_Rect* r, int nbUn, int dg){
     if(dg == 1){
         for(int i = 0; i < nbUn; i++){
             r[i].x = r[i].x+10;
+        }
+    }
+    if(dg == 2){
+        for(int i = 0; i < nbUn; i++){
+            r[i].y = r[i].y+10;
+        }
+    }
+    if(dg == 3){
+        for(int i = 0; i < nbUn; i++){
+            r[i].y = r[i].y-10;
         }
     }
 }
