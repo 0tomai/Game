@@ -19,7 +19,7 @@ struct jeu
 
 SDL_Renderer* init_jeu(jeu_t* c, SDL_Renderer* r);
     
-void refresh_jeu(SDL_Renderer* f, jeu_t* c);
+void refresh_jeu(SDL_Renderer* f, jeu_t* c, SDL_Texture* t);
 
 void free_jeu(jeu_t* c);
 

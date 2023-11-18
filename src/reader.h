@@ -13,6 +13,6 @@ int** init_tab(int l, int c);
 
 void fill_tab(int** tab);
 
-void reading(SDL_Renderer* renderer);
+void reading(SDL_Renderer* renderer, SDL_Texture* t);
 
 #endif

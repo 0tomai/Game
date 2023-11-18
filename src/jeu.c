@@ -12,11 +12,11 @@ SDL_Renderer* init_jeu(jeu_t* m, SDL_Renderer* r){
     return r;
 }
 
-void refresh_jeu(SDL_Renderer* r, jeu_t* c){
+void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture){
         SDL_Delay(33);
         SDL_RenderClear(r);
         SDL_RenderCopy(r, c->fond, NULL, NULL);
-        reading(r);
+        reading(r, texture);
         SDL_RenderPresent(r);
 }
 

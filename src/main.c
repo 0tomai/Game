@@ -47,6 +47,8 @@ int main()
 
     jeu_t* game = malloc(sizeof(jeu_t));
 
+    
+
     c->state = -1;
 
     game->state = -1;
@@ -57,6 +59,11 @@ int main()
 
     bool terminer = false;
     
+    SDL_Texture* terrain = charger_image("src/terrain.bmp", ecran);
+    if (terrain == NULL) {
+    fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
+    }
+
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     while(!terminer){
@@ -85,7 +92,7 @@ int main()
         }
         if (game->state == 0)
         {
-            refresh_jeu(ecran, game);
+            refresh_jeu(ecran, game, terrain);
         }
         if (game->state == 1)
         {
