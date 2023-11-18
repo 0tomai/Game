@@ -1,15 +1,18 @@
 #include "reader.h"
+#include <string.h>
 
 
-void tailleFichier(int* nbLigne, int* nbCol)
+void tailleFichier(int* nbLigne, int* nbCol, int* nbChar, char path[])
 {
     int taille = 0;
     int max = 0;
     int colonne = 0;
+    int nbUn = 0;
     char c;
     FILE* f;
-    f = fopen("src/map.txt", "r");
+    f = fopen(path, "r");
     c = fgetc(f);
+    
 
     while(c != EOF)
     {
@@ -27,6 +30,9 @@ void tailleFichier(int* nbLigne, int* nbCol)
             }
             taille = 0;
         }
+        if(c == '1'){
+        nbUn++;
+        }
         c = fgetc(f);
     }
     if (c == EOF)
@@ -42,6 +48,8 @@ void tailleFichier(int* nbLigne, int* nbCol)
     colonne = colonne;
     *nbCol = colonne;
     *nbLigne = max;
+    *nbChar = nbUn;
+    
 }
 
 int** init_tab(int l, int c){
@@ -53,10 +61,10 @@ int** init_tab(int l, int c){
     return tab;
 }
 
-void fill_tab(int ** tab){
+void fill_tab(int ** tab, char path[]){
     char entry;
     FILE* f;
-    f = fopen("src/map.txt", "r");
+    f = fopen(path, "r");
     entry = fgetc(f);
     int i = 0, j = 0;
     while(entry != EOF)
@@ -75,34 +83,46 @@ void fill_tab(int ** tab){
     }
 }
 
-void reading(SDL_Renderer* renderer, SDL_Texture* texture) {
+void reading(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Texture* c, char map[], SDL_Rect* r) {
     
     int nbCol = 0;
     int nbLigne= 0;
-    tailleFichier(&nbCol, &nbLigne);
+    int nbUn;
+    tailleFichier(&nbCol, &nbLigne, &nbUn, map);
 
     int** tab = init_tab(nbLigne, nbCol);
-    fill_tab(tab);
+    
+    fill_tab(tab, map);
     //printf("%d", nbCol);
     //printf("%d", nbLigne);
     
-    SDL_Rect destRect;
-        destRect.w = 16; 
-        destRect.h = 16; 
+    //SDL_Rect destRect;
+    int pos =0;
+    int posx = 0;
+    int poys = 0;
+        //destRect.w = 32; 
+        //destRect.h = 32; 
 
     for (int i = 0; i < nbLigne; i++)
     {
         for (int j = 0; j < nbCol; j++)
         {
-            destRect.x = j * destRect.w;
-            destRect.y = i * destRect.h;
-
+            //destRect.x = j * destRect.w;
+            //destRect.y = i * destRect.h;
+            posx = j*32;
+            poys = i*32;
             switch (tab[i][j]){
                 case 1:
-                    SDL_RenderCopy(renderer, texture, NULL, &destRect);
+                    //SDL_RenderCopy(renderer, texture, NULL, &destRect);
+                    r[pos].h =32;
+                    r[pos].w =32;
+                    r[pos].x = posx;
+                    r[pos].y = poys;
+                    pos++;
+
                     break;
                 case 2:
-                    //printf("%d", tab[i][j]);
+                    //SDL_RenderCopy(renderer, c, NULL, &destRect);
                     break;
                 default:
             }

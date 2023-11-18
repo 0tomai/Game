@@ -12,11 +12,14 @@ SDL_Renderer* init_jeu(jeu_t* m, SDL_Renderer* r){
     return r;
 }
 
-void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture){
+void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture, SDL_Texture* ch, char map[], SDL_Rect* rec, int nbUn){
         SDL_Delay(33);
         SDL_RenderClear(r);
         SDL_RenderCopy(r, c->fond, NULL, NULL);
-        reading(r, texture);
+        //reading(r, texture, ch, map, rec);
+        for(int i =0; i<nbUn; i++){
+            SDL_RenderCopy(r, texture, NULL, &rec[i]);
+        }
         SDL_RenderPresent(r);
 }
 
@@ -25,9 +28,9 @@ void free_jeu(jeu_t* c){
     free(c);
 }
 
-void handle_jeu(SDL_Event* e, jeu_t* c){
+void handle_jeu(SDL_Event* e, jeu_t* c, SDL_Rect* rec, int nbUn){
     //SDL_PollEvent(&e);
-    int mx=0, my=0;
+    //int mx=0, my=0;
     switch (e->type)
     {
         case SDL_KEYDOWN: //gestion souris
@@ -35,10 +38,12 @@ void handle_jeu(SDL_Event* e, jeu_t* c){
                 {
                 case SDLK_RIGHT:
                     printf("going right\n");
-
+                    update(rec, nbUn, 0);
                     break;
                 case SDLK_LEFT:
                     printf("going left\n");
+                    update(rec, nbUn, 1);
+
                     break;
 
                 case SDLK_SPACE:
@@ -50,5 +55,18 @@ void handle_jeu(SDL_Event* e, jeu_t* c){
                     break;
                 }
                 break;
+    }
+
+}
+void update(SDL_Rect* r, int nbUn, int dg){
+    if(dg == 0){
+        for(int i = 0; i < nbUn; i++){
+            r[i].x = r[i].x-10;
+        }
+    }
+    if(dg == 1){
+        for(int i = 0; i < nbUn; i++){
+            r[i].x = r[i].x+10;
+        }
     }
 }

@@ -9,19 +9,23 @@ int main()
 {
     int nbCol = 0;
     int nbLigne= 0;
-    tailleFichier(&nbCol, &nbLigne);
-    //printf("%d %d", nbCol, nbLigne);
+    int nbUn= 0;
+    char map[15] = "src/map.txt";
 
-    int** tab = init_tab(nbLigne, nbCol);
-    fill_tab(tab);
-    for (int i = 0; i < nbLigne; i++)
-    {
-        for (int j = 0; j < nbCol; j++)
-        {
-            printf("%d", tab[i][j]);
-        }        
-        printf("\n");
-    }
+    tailleFichier(&nbCol, &nbLigne, &nbUn, map);
+    //printf("%d", nbUn);
+    // //printf("%d %d", nbCol, nbLigne);
+
+    // int** tab = init_tab(nbLigne, nbCol);
+    // fill_tab(tab);
+    // for (int i = 0; i < nbLigne; i++)
+    // {
+    //     for (int j = 0; j < nbCol; j++)
+    //     {
+    //         printf("%d", tab[i][j]);
+    //     }        
+    //     printf("\n");
+    // }
 
     SDL_Window *window = NULL;
     int statut = EXIT_FAILURE;
@@ -41,17 +45,18 @@ int main()
     /* On agit sur la fenêtre ici */
     SDL_Renderer* ecran;
 
+
     menu_t* m = malloc(sizeof(menu_t));
 
     credit_t* c = malloc(sizeof(credit_t));
 
     jeu_t* game = malloc(sizeof(jeu_t));
 
-    
-
     c->state = -1;
 
     game->state = -1;
+
+    SDL_Rect destR[nbCol*nbLigne];
 
     //printf("%d", c->state);
 
@@ -63,7 +68,11 @@ int main()
     if (terrain == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
-
+    SDL_Texture* checkpoint = charger_image_transparente("src/end.bmp", ecran, 255, 255, 255);
+    if (checkpoint == NULL) {
+    fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
+    }
+    reading(ecran, terrain, checkpoint, map, destR);
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     while(!terminer){
@@ -92,16 +101,13 @@ int main()
         }
         if (game->state == 0)
         {
-            refresh_jeu(ecran, game, terrain);
+            refresh_jeu(ecran, game, terrain, checkpoint, map, destR, nbUn);
         }
         if (game->state == 1)
         {
             back2menu(m, ecran);
             game->state = -1;
         }
-        
-        
-
 
         i = i+1;
         
@@ -116,12 +122,8 @@ int main()
         }
         if (game->state == 0 && m->state == 1)
         {
-            handle_jeu(&evenements, game);
+            handle_jeu(&evenements, game, destR, nbUn);
         }
-        
-        
-        
-        
 
         switch(evenements.type)
         {
@@ -133,11 +135,13 @@ int main()
             case SDL_KEYDOWN:
                 switch(evenements.key.keysym.sym)
                 {
-                    // case SDLK_RIGHT:
-                    //     printf("%d\n", i);
-                    //     break;
                     case SDLK_0:
-                        terminer = false;
+                        strcpy(map, "src/mapp.txt");
+                        
+                        tailleFichier(&nbLigne, &nbCol, &nbUn, map);
+                        reading(ecran, terrain, checkpoint, map, destR);
+
+                        printf("%d", nbUn);
                         break;
                     case SDLK_ESCAPE:
                         case SDLK_q:
@@ -151,6 +155,7 @@ int main()
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);
     free_menu(m);
+    free_jeu(game);
     free_credit(c);
     SDL_DestroyRenderer(ecran);
     SDL_DestroyWindow(window);
