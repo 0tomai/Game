@@ -1,10 +1,11 @@
 #include "player.h"
 
-player_t* initPlayer(player_t *p, int x, int y)
+player_t* initPlayer(player_t *p, float x, int y)
 {
-    p->posX = x;
-    p->posY = y;
-    p->velocity = 50;
+        p->posX = x;
+        p->posY = y;
+        p->velocity = 100;
+        p->dirX = 0;
     return p;
 }
 void printPlayer(player_t *p, SDL_Renderer* renderer)
@@ -17,11 +18,23 @@ void printPlayer(player_t *p, SDL_Renderer* renderer)
     SDL_Rect destRect;
         destRect.x = p->posX;
         destRect.y = p->posY;
+        destRect.w = 8;
+        destRect.h = 8;
 
     SDL_RenderCopy(renderer, texture, NULL, &destRect);
 }
 
+void updatePlayerPosition(player_t *p, float deltaTime)
+{
+    p->posX += p->velocity * deltaTime * p->dirX;
+
+}
+
 void move(player_t *p, int dir)
 {
-    p->posX += p->velocity;
+    if (p->dirX != dir) {
+        p->dirX = dir;
+    }
 }
+
+

@@ -6,18 +6,18 @@
 #include <stdlib.h>
 #include <SDL2/SDL_ttf.h>
 #include "image.h"
+
 struct player
 {
-    //SDL_Texture* j;
-    int posX;
+    float posX;
     int posY;
     int velocity;
-    // int jumpForce;
-    // int state;
+    int dirX;
 }; typedef struct player player_t;
 
 void printPlayer(player_t *p, SDL_Renderer* renderer);
-player_t* initPlayer(player_t *p, int x, int y);
+player_t* initPlayer(player_t *p, float x, int y);
 void move(player_t *p, int dir);
+void updatePlayerPosition(player_t *p, float deltaTime);
 
 #endif
