@@ -8,20 +8,20 @@ player_t* initPlayer(player_t *p, float x, int y)
         p->dirX = 0;
     return p;
 }
-void printPlayer(player_t *p, SDL_Renderer* renderer)
+void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Texture* texture)
 {
-     SDL_Texture* texture = charger_image("src/player.bmp", renderer);
-    if (texture == NULL) {
-    fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
-    }
+    // SDL_Texture* texture = charger_image("src/player.bmp", renderer);
+    // if (texture == NULL) {
+    // fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
+    // }
 
-    SDL_Rect destRect;
-        destRect.x = p->posX;
-        destRect.y = p->posY;
-        destRect.w = 8;
-        destRect.h = 8;
+    // SDL_Rect destRect;
+        destRect->x = p->posX;
+        destRect->y = p->posY;
+        destRect->w = 8;
+        destRect->h = 8;
 
-    SDL_RenderCopy(renderer, texture, NULL, &destRect);
+    SDL_RenderCopy(renderer, texture, NULL, destRect);
 }
 
 void updatePlayerPosition(player_t *p, float deltaTime)

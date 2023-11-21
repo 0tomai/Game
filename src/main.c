@@ -3,6 +3,7 @@
 #include "reader.h"
 #include "credit.h"
 #include "jeu.h"
+#include "player.h"
 #include <stdbool.h>
 
 int main()
@@ -45,12 +46,15 @@ int main()
     /* On agit sur la fenêtre ici */
     SDL_Renderer* ecran;
 
-
     menu_t* m = malloc(sizeof(menu_t));
 
     credit_t* c = malloc(sizeof(credit_t));
 
     jeu_t* game = malloc(sizeof(jeu_t));
+
+    player_t* p = malloc(sizeof(player_t));
+
+    initPlayer(p, 1280-640, 720-360);
 
     c->state = -1;
 
@@ -58,12 +62,24 @@ int main()
 
     SDL_Rect destR[nbCol*nbLigne];
 
+    SDL_Rect play;
+
+    Uint32 lastTime = SDL_GetTicks();
+    float deltaTime;
+    Uint32 currentTime = SDL_GetTicks();
+
+    deltaTime = (float)(currentTime - lastTime) / 1000.0f;
     //printf("%d", c->state);
 
     ecran = init_renderer(window, m);
 
     bool terminer = false;
     
+    SDL_Texture* joueur = charger_image("src/player.bmp", ecran);
+    if (joueur == NULL) {
+    fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
+    }
+
     SDL_Texture* terrain = charger_image("src/terrain.bmp", ecran);
     if (terrain == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
@@ -76,6 +92,9 @@ int main()
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     while(!terminer){
+        currentTime = SDL_GetTicks();
+        deltaTime = (float)(currentTime - lastTime) / 1000.0f;
+        lastTime = currentTime;
         if (m->state == 0)
         {
             refresh_menu(ecran, m);
@@ -87,7 +106,7 @@ int main()
         }
         if (m->state == 1 && game->state == -1)
         {
-            ecran = init_jeu(game, ecran);
+            ecran = init_jeu(game, ecran, p);
         }
         
         if (c->state == 0)
@@ -101,7 +120,7 @@ int main()
         }
         if (game->state == 0)
         {
-            refresh_jeu(ecran, game, terrain, checkpoint, map, destR, nbUn);
+            refresh_jeu(ecran, game, terrain, checkpoint, map, destR, nbUn, &play, joueur);
         }
         if (game->state == 1)
         {
@@ -122,7 +141,7 @@ int main()
         }
         if (game->state == 0 && m->state == 1)
         {
-            handle_jeu(&evenements, game, destR, nbUn);
+            handle_jeu(&evenements, game, destR, nbUn, deltaTime);
         }
 
         switch(evenements.type)
@@ -151,6 +170,7 @@ int main()
                     break;
                 }  
         }
+        
     }
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);

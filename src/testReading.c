@@ -16,6 +16,7 @@ int main() {
     SDL_Event e;
     Uint32 lastTime = SDL_GetTicks();
     float deltaTime;
+    Uint32 currentTime = SDL_GetTicks();
 
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
@@ -44,7 +45,7 @@ int main() {
             }
         }
 
-        Uint32 currentTime = SDL_GetTicks();
+        currentTime = SDL_GetTicks();
         deltaTime = (float)(currentTime - lastTime) / 1000.0f;
         lastTime = currentTime;
 

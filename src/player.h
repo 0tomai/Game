@@ -15,7 +15,7 @@ struct player
     int dirX;
 }; typedef struct player player_t;
 
-void printPlayer(player_t *p, SDL_Renderer* renderer);
+void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Texture* texture);
 player_t* initPlayer(player_t *p, float x, int y);
 void move(player_t *p, int dir);
 void updatePlayerPosition(player_t *p, float deltaTime);
