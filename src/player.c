@@ -18,8 +18,8 @@ void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Te
     // SDL_Rect destRect;
         destRect->x = p->posX;
         destRect->y = p->posY;
-        destRect->w = 8;
-        destRect->h = 8;
+        destRect->w = 32;
+        destRect->h = 32;
 
     SDL_RenderCopy(renderer, texture, NULL, destRect);
 }

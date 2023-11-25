@@ -24,8 +24,8 @@ void refresh_jeu(SDL_Renderer* f, jeu_t* c, SDL_Texture* t, SDL_Texture* ch, cha
 
 void free_jeu(jeu_t* c);
 
-void handle_jeu(SDL_Event* e, jeu_t* c, SDL_Rect* r, int nbUn, float dt);
+// void handle_jeu(SDL_Event* e, jeu_t* c, SDL_Rect* r, int nbUn, float dt);
 
-void update(SDL_Rect* r, int nbun, int dg, float dt);
+// void update(SDL_Rect* r, int nbun, int dg, float dt);
 
 #endif

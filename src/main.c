@@ -68,7 +68,7 @@ int main()
     float deltaTime;
     Uint32 currentTime = SDL_GetTicks();
 
-    deltaTime = (float)(currentTime - lastTime) / 1000.0f;
+    deltaTime = (float)(currentTime - lastTime) / SDL_GetPerformanceFrequency();
     //printf("%d", c->state);
 
     ecran = init_renderer(window, m);
@@ -91,10 +91,12 @@ int main()
     reading(ecran, terrain, checkpoint, map, destR);
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
+    bool r = false;
+    bool l = false;
+
     while(!terminer){
-        currentTime = SDL_GetTicks();
-        deltaTime = (float)(currentTime - lastTime) / 1000.0f;
-        lastTime = currentTime;
+        //currentTime = SDL_GetTicks();
+        
         if (m->state == 0)
         {
             refresh_menu(ecran, m);
@@ -129,7 +131,9 @@ int main()
         }
 
         i = i+1;
-        
+        currentTime = SDL_GetTicks();
+        deltaTime = (float)(currentTime - lastTime) / 1000.0f;
+        lastTime = currentTime;
         SDL_PollEvent( &evenements );
         if (m->state == 0)
         {
@@ -139,11 +143,19 @@ int main()
         {
             handle_credit(&evenements, c);
         }
-        if (game->state == 0 && m->state == 1)
+        if ((game->state == 0 && m->state == 1))
         {
-            handle_jeu(&evenements, game, destR, nbUn, deltaTime);
+                switch(evenements.type)
+                {  
+                    case SDL_KEYDOWN:
+                        switch(evenements.key.keysym.sym)
+                        {
+                            case SDLK_p:
+                                game->state = 1;
+                                break;
+                        }
+                }
         }
-
         switch(evenements.type)
         {
 
@@ -154,6 +166,9 @@ int main()
             case SDL_KEYDOWN:
                 switch(evenements.key.keysym.sym)
                 {
+                    case SDLK_p:
+                        game->state = 1;
+                        break;
                     case SDLK_0:
                         strcpy(map, "src/mapp.txt");
                         
@@ -170,13 +185,63 @@ int main()
                     break;
                 }  
         }
+        if ((game->state == 0 && m->state == 1))
+        {        
+            if (evenements.type == SDL_KEYDOWN)
+            {
+                switch (evenements.key.keysym.sym)
+                {
+                case SDLK_RIGHT:
+                    r = true;
+                    break;
+                case SDLK_LEFT:
+                    l = true;
+                    break;
+                default:
+                    break;
+                }
+            }
+            if (evenements.type == SDL_KEYUP)
+            {
+                switch (evenements.key.keysym.sym)
+                {
+                case SDLK_RIGHT:
+                    r = false;
+                    break;
+                case SDLK_LEFT:
+                    l = false;
+                    break;
+                default:
+                    break;
+                }
+            }
+            if (r)
+            {
+                for(int i = 0; i < nbUn; i++){
+                    destR[i].x = destR[i].x-(200 * deltaTime);
+                }
+            }
+            if (l)
+            {
+                for(int i = 0; i < nbUn; i++){
+                    destR[i].x = destR[i].x+200 * deltaTime;
+                }
+            }
+        }
         
     }
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);
     free_menu(m);
-    free_jeu(game);
-    free_credit(c);
+    if (game != NULL)
+    {
+        free_jeu(game);
+    }
+    if (c != NULL)
+    {
+        free_credit(c);
+    }
+    
     SDL_DestroyRenderer(ecran);
     SDL_DestroyWindow(window);
     //Quit:
