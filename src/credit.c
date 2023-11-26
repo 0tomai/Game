@@ -50,9 +50,14 @@ void refresh_credit(SDL_Renderer* r, credit_t* c){
 }
 
 void free_credit(credit_t* c){
-    SDL_DestroyTexture(c->fond);
-    SDL_DestroyTexture(c->j);
-    SDL_DestroyTexture(c->c);
+    if (c->state != -1)
+    {
+        SDL_DestroyTexture(c->fond);
+        SDL_DestroyTexture(c->j);
+        SDL_DestroyTexture(c->c);
+    }
+    
+    
     free(c);
 }
 

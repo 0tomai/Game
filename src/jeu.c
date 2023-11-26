@@ -23,7 +23,11 @@ void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture, SDL_Texture* c
 }
 
 void free_jeu(jeu_t* c){
-    SDL_DestroyTexture(c->fond);
+    if (c->state!=-1)
+    {
+     SDL_DestroyTexture(c->fond);
+    }
+    
     free(c);
 }
 

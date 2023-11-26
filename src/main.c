@@ -5,6 +5,7 @@
 #include "jeu.h"
 #include "player.h"
 #include <stdbool.h>
+#include "enemy.h"
 
 int main()
 {
@@ -12,7 +13,17 @@ int main()
     int nbLigne= 0;
     int nbUn= 0;
     char map[15] = "src/map.txt";
+    enemy_t * e[3];
+    e[0] = malloc(sizeof(enemy_t));
+    e[1] = malloc(sizeof(enemy_t));
 
+    readEnemy(e, "src/map3.txt");
+    //readEnemy(e[1], "src/map3.txt");
+
+    printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
+    printf("%d, %d, %d", e[1]->hp, e[1]->posX, e[1]->posY);
+
+    return 0;
     tailleFichier(&nbCol, &nbLigne, &nbUn, map);
     //printf("%d", nbUn);
     // //printf("%d %d", nbCol, nbLigne);
@@ -53,6 +64,12 @@ int main()
     jeu_t* game = malloc(sizeof(jeu_t));
 
     player_t* p = malloc(sizeof(player_t));
+
+    //enemy_t * e = malloc(sizeof(enemy_t));
+    
+    
+    //e[1]->hp = 70;
+    //printf("HP enemy 1 : %d", e->hp);
 
     initPlayer(p, 1280-640, 720-360);
 
@@ -233,15 +250,8 @@ int main()
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);
     free_menu(m);
-    if (game != NULL)
-    {
-        free_jeu(game);
-    }
-    if (c != NULL)
-    {
-        free_credit(c);
-    }
-    
+    free_jeu(game);
+    free_credit(c);
     SDL_DestroyRenderer(ecran);
     SDL_DestroyWindow(window);
     //Quit:
