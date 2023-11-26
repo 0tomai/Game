@@ -4,6 +4,7 @@
 #include "credit.h"
 #include "jeu.h"
 #include "player.h"
+#include "collision.h"
 #include <stdbool.h>
 #include "enemy.h"
 
@@ -73,6 +74,8 @@ int main()
 
     initPlayer(p, 1280-640, 720-360);
 
+    CollisionType collisionType;
+
     c->state = -1;
 
     game->state = -1;
@@ -110,6 +113,7 @@ int main()
     int i = 0; //mx=0, my=0;
     bool r = false;
     bool l = false;
+    bool s = false;
 
     while(!terminer){
         //currentTime = SDL_GetTicks();
@@ -150,6 +154,12 @@ int main()
         i = i+1;
         currentTime = SDL_GetTicks();
         deltaTime = (float)(currentTime - lastTime) / 1000.0f;
+        collisionType = collisions(p, destR, nbUn);
+        // GRAVITE
+        if(collisionType == NO_COLLISION || collisionType == BOTTOM_COLLISION)
+        {
+        gravity(p, destR, nbUn, deltaTime);
+        }
         lastTime = currentTime;
         SDL_PollEvent( &evenements );
         if (m->state == 0)
@@ -214,6 +224,9 @@ int main()
                 case SDLK_LEFT:
                     l = true;
                     break;
+                case SDLK_SPACE:
+                    s = true;
+                    break;
                 default:
                     break;
                 }
@@ -228,24 +241,72 @@ int main()
                 case SDLK_LEFT:
                     l = false;
                     break;
+                case SDLK_SPACE:
+                    s = false;
+                    break;
                 default:
                     break;
                 }
             }
             if (r)
-            {
-                for(int i = 0; i < nbUn; i++){
-                    destR[i].x = destR[i].x-(200 * deltaTime);
+            {                
+                collisionType = collisions(p, destR, nbUn);
+                if(collisionType == NO_COLLISION || collisionType == RIGHT_COLLISION || collisionType == TOP_COLLISION)
+                {
+                    for(int i = 0; i < nbUn; i++)
+                    {
+                        destR[i].x = destR[i].x-(200 * deltaTime);
+                    }
+                }else
+                {
+                    switch (collisionType)
+                    {
+                        case LEFT_COLLISION:
+                            printf("LEFT\n");
+                            for(int i = 0; i < nbUn; i++)
+                            {
+                                destR[i].x = destR[i].x+3;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    
                 }
             }
             if (l)
             {
-                for(int i = 0; i < nbUn; i++){
-                    destR[i].x = destR[i].x+200 * deltaTime;
+                collisionType = collisions(p, destR, nbUn);
+                    if(collisionType == NO_COLLISION || collisionType == LEFT_COLLISION  || collisionType == TOP_COLLISION){
+                    for(int i = 0; i < nbUn; i++)
+                    {
+                        destR[i].x = destR[i].x+(200 * deltaTime);
+                    }
+                }else
+                {
+                    switch (collisionType)
+                    {
+                        case RIGHT_COLLISION:
+                            printf("LEFT\n");
+                            for(int i = 0; i < nbUn; i++)
+                            {
+                                destR[i].x = destR[i].x-3;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }  
+            if (s)
+            {
+                collisionType = collisions(p, destR, nbUn);
+                if(collisionType == TOP_COLLISION)
+                {
+                    jump(destR, nbUn, deltaTime);
                 }
             }
         }
-        
     }
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);
