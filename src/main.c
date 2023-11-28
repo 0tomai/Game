@@ -18,13 +18,14 @@ int main()
     e[0] = malloc(sizeof(enemy_t));
     e[1] = malloc(sizeof(enemy_t));
 
-    readEnemy(e, "src/map3.txt");
+    readEnemy(e, "src/enemies.txt");
     //readEnemy(e[1], "src/map3.txt");
 
     printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
     printf("%d, %d, %d", e[1]->hp, e[1]->posX, e[1]->posY);
 
     return 0;
+
     tailleFichier(&nbCol, &nbLigne, &nbUn, map);
     //printf("%d", nbUn);
     // //printf("%d %d", nbCol, nbLigne);
@@ -158,7 +159,7 @@ int main()
         // GRAVITE
         if(collisionType == NO_COLLISION || collisionType == BOTTOM_COLLISION)
         {
-        gravity(p, destR, nbUn, deltaTime);
+        gravity(destR, nbUn, deltaTime);
         }
         lastTime = currentTime;
         SDL_PollEvent( &evenements );

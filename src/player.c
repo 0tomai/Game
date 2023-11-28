@@ -1,7 +1,7 @@
 #include "player.h"
 
 #define GRAVITY 100.0
-#define JUMP_VELOCITY 2000.0 
+#define JUMP_VELOCITY 100.0 
 
 player_t* initPlayer(player_t *p, float x, int y)
 {

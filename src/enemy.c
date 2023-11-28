@@ -8,6 +8,7 @@ void readEnemy(enemy_t* e[], char path[]){
     int isNumber = 0;
     int checkHP = 0;
     int checkPosX = 0;
+    int checkPosY = 0;
     int i = 0;
     int truc=0;
     f = fopen(path, "r");
@@ -23,25 +24,23 @@ void readEnemy(enemy_t* e[], char path[]){
         {
             isNumber = 0;
             truc = atoi(param);
+            param[0] = '\0';
+            if (checkHP == 1 && checkPosX == 0)
+            {
+                e[0]->posX = truc;
+                e[1]->posX = truc;
+                checkPosX++;
+            }
             if (checkHP == 0)
             {
                 checkHP++;
                 e[0]->hp = truc;
                 e[1]->hp = truc;
-                
-            }
-            if (checkPosX==1)
-            {
-                e[0]->posX = truc;
-                e[1]->posX = truc;
 
             }
-            checkPosX++;
             
-            
+                        
             i = 0;
-            
-            
         }
         if (isNumber == 1)
         {
@@ -49,10 +48,8 @@ void readEnemy(enemy_t* e[], char path[]){
             param[i] = c;
             i++;
         }
-        
-        c = fgetc(f);
-        
-        
+
+        c = fgetc(f);        
     }
     e[0]->posY = truc;
     e[1]->posY = truc;
