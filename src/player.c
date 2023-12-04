@@ -1,14 +1,16 @@
 #include "player.h"
 
-#define GRAVITY 100.0
+#define GRAVITY 100
 #define JUMP_VELOCITY 100.0 
 
 player_t* initPlayer(player_t *p, float x, int y)
 {
         p->posX = x;
         p->posY = y;
-        p->velocity = 100;
+        p->velocity = 0;
         p->dirX = 0;
+        p->is_jumping = 0; 
+        p->timer = 20;
     return p;
 }
 void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Texture* texture)
@@ -33,11 +35,11 @@ void updatePlayerPosition(player_t *p, float deltaTime)
 
 }
 
-void gravity(SDL_Rect rects[], int numRects, float deltaTime)
+void gravity(SDL_Rect rects[], int numRects, float deltaTime, player_t*p)
 {
-    for (int i = 0; i < numRects; i++)
+    for (int i = 0; i <= numRects; i++)
     {
-        rects[i].y -= GRAVITY * deltaTime;
+        rects[i].y -= (GRAVITY- p->velocity) * deltaTime;
         //printf("%d\n", rects[i].y);
 
     }
