@@ -10,6 +10,7 @@ void readEnemy(enemy_t* e[], char path[]){
     int checkPosX = 0;
     int checkPosY = 0;
     int i = 0;
+    int numEnemy = 0;
     int truc=0;
     f = fopen(path, "r");
     c = fgetc(f);
@@ -22,36 +23,79 @@ void readEnemy(enemy_t* e[], char path[]){
         }
         if (c== '/')
         {
+            
+            
             isNumber = 0;
             truc = atoi(param);
-            param[0] = '\0';
+            for (int j = 0; j < 10; j++)
+            {
+                param[j] = '\0';
+            }
+            
+            
+            if (checkHP == 1 && checkPosX == 1)
+            {
+                checkPosY = 1;
+                e[numEnemy]->posY = truc;
+            }
             if (checkHP == 1 && checkPosX == 0)
             {
-                e[0]->posX = truc;
-                e[1]->posX = truc;
+                e[numEnemy]->posX = truc;
+                //e[1]->posX = truc;
                 checkPosX++;
             }
             if (checkHP == 0)
             {
                 checkHP++;
-                e[0]->hp = truc;
-                e[1]->hp = truc;
-
+                e[numEnemy]->hp = truc;
+                //e[1]->hp = truc;
             }
-            
+            if(checkPosY == 1){
+                checkPosY = 0;
+                checkHP = 0;
+                checkPosX = 0;
+                numEnemy++;
+            }
                         
             i = 0;
         }
         if (isNumber == 1)
         {
             strc[0] = c;
-            param[i] = c;
-            i++;
+            if (c >= 48 && c<= 57)
+            {
+                param[i] = c;
+                i++;
+            }
+            else
+            {
+                printf("Tout caractère non numerique sera IGNORE\n");
+            }
+            
+            
+            
         }
 
         c = fgetc(f);        
     }
-    e[0]->posY = truc;
-    e[1]->posY = truc;
   
 }
+
+void prepare_enemies(SDL_Rect* enemy, enemy_t* e[], int nbEnemies){
+    for (int i = 0; i < nbEnemies; i++)
+    {
+        enemy[i].h = 36;
+        enemy[i].w = 36;
+        enemy[i].x = e[i]->posX;
+        enemy[i].y = e[i]->dirX;
+    }
+}
+
+void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Texture* texture){
+    for (int i = 0; i < nbEnemies; i++)
+    {
+        SDL_RenderCopy(render, texture, NULL, &enemy[i]);
+    }
+    
+}
+

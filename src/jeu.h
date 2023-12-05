@@ -3,6 +3,7 @@
 
 #include "reader.h"
 #include "player.h"
+#include "enemy.h"
 
 struct jeu
 {

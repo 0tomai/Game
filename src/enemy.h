@@ -19,4 +19,8 @@ struct enemy
 
 void readEnemy(enemy_t* e[], char path[]);
 
+void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Texture* texture);
+
+void prepare_enemies(SDL_Rect* enemy, enemy_t* e[], int nbEnemies);
+
 #endif

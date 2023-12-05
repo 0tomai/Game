@@ -13,19 +13,26 @@ int main()
     int nbCol = 0;
     int nbLigne= 0;
     int nbUn= 0;
+    int nbEnemies = 0;
     char map[15] = "src/map.txt";
-    enemy_t * e[3];
-    e[0] = malloc(sizeof(enemy_t));
-    e[1] = malloc(sizeof(enemy_t));
-
+    tailleFichier(&nbCol, &nbEnemies, &nbUn, "src/enemies.txt");
+    enemy_t * e[nbEnemies];
+    for (int i = 0; i < nbEnemies; i++)
+    {
+        e[i] = malloc(sizeof(enemy_t));
+    }
     readEnemy(e, "src/enemies.txt");
-    //readEnemy(e[1], "src/map3.txt");
+
+    SDL_Rect enemies[nbEnemies];
+    
 
     printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
-    printf("%d, %d, %d", e[1]->hp, e[1]->posX, e[1]->posY);
-
+    printf("%d, %d, %d\n", e[1]->hp, e[1]->posX, e[1]->posY);
+    printf("%d, %d, %d\n", e[2]->hp, e[2]->posX, e[2]->posY);
     //return 0;
 
+    nbCol = 0;
+    nbUn= 0;
     tailleFichier(&nbCol, &nbLigne, &nbUn, map);
     //printf("%d", nbUn);
     // //printf("%d %d", nbCol, nbLigne);
@@ -96,6 +103,11 @@ int main()
 
     bool terminer = false;
     
+    SDL_Texture* enemy = charger_image("src/enemy.bmp", ecran);
+    if (enemy == NULL) {
+    fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
+    }
+
     SDL_Texture* joueur = charger_image("src/player.bmp", ecran);
     if (joueur == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
@@ -115,6 +127,7 @@ int main()
     bool r = false;
     bool l = false;
     bool s = false;
+    prepare_enemies(enemies, e, nbEnemies);
 
     while(!terminer){
         //currentTime = SDL_GetTicks();
@@ -145,6 +158,9 @@ int main()
         if (game->state == 0)
         {
             refresh_jeu(ecran, game, terrain, checkpoint, map, destR, nbUn, &play, joueur);
+            print_enemies(enemies, nbEnemies, ecran, enemy);
+            
+            SDL_RenderPresent(ecran);
         }
         if (game->state == 1)
         {
@@ -292,17 +308,30 @@ int main()
                     {
                         destR[i].x = destR[i].x-(200 * deltaTime);
                     }
+                    for (int i = 0; i < nbEnemies; i++)
+                        {
+                            enemies[i].x = enemies[i].x-(200 * deltaTime);
+                        }
                 }else
                 {
                     switch (collisionType)
                     {
                         case LEFT_COLLISION:
+
+                            for (int i = 0; i < nbEnemies; i++)
+                            {
+                                enemies[i].x = enemies[i].x+6;
+                            }
                             for(int i = 0; i < nbUn; i++)
                             {
                                 destR[i].x = destR[i].x+6;
                             }
                             break;
                         case SAD_COLLISION:
+                        for (int i = 0; i < nbEnemies; i++)
+                            {
+                                enemies[i].x = enemies[i].x+6;
+                            }
                             for(int i = 0; i < nbUn; i++)
                             {
                                 destR[i].x = destR[i].x+6;
@@ -317,21 +346,37 @@ int main()
             {
                 collisionType = collisions(p, destR, nbUn);
                     if(collisionType != RIGHT_COLLISION && collisionType != SAD_COLLISION){
+
+                        for (int i = 0; i < nbEnemies; i++)
+                        {
+                            enemies[i].x = enemies[i].x+(200 * deltaTime);
+                        }
+                        
+                        
                     for(int i = 0; i < nbUn; i++)
                     {
                         destR[i].x = destR[i].x+(200 * deltaTime);
+                        
                     }
                 }else
                 {
                     switch (collisionType)
                     {
                         case RIGHT_COLLISION:
+                            for (int i = 0; i < nbEnemies; i++)
+                            {
+                                enemies[i].x = enemies[i].x-6;
+                            }
                             for(int i = 0; i < nbUn; i++)
                             {
                                 destR[i].x = destR[i].x-6;
                             }
                             break;
                         case SAD_COLLISION:
+                            for (int i = 0; i < nbEnemies; i++)
+                            {
+                                enemies[i].x = enemies[i].x-6;
+                            }
                             for(int i = 0; i < nbUn; i++)
                             {
                                 destR[i].x = destR[i].x-6;
