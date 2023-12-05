@@ -83,7 +83,7 @@ void fill_tab(int ** tab, char path[]){
     }
 }
 
-void reading(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Texture* c, char map[], SDL_Rect* r) {
+void reading(char map[], SDL_Rect* r) {
     
     int nbCol = 0;
     int nbLigne= 0;
@@ -126,6 +126,7 @@ void reading(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Texture* c, char 
                     break;
                 default:
             }
+
         }
         // printf("\n");
     }

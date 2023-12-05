@@ -109,7 +109,7 @@ int main()
     if (checkpoint == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
-    reading(ecran, terrain, checkpoint, map, destR);
+    reading(map, destR);
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     bool r = false;
@@ -201,7 +201,7 @@ int main()
                         strcpy(map, "src/mapp.txt");
                         
                         tailleFichier(&nbLigne, &nbCol, &nbUn, map);
-                        reading(ecran, terrain, checkpoint, map, destR);
+                        reading(map, destR);
 
                         printf("%d", nbUn);
                         break;
