@@ -23,4 +23,6 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
 
 void prepare_enemies(SDL_Rect* enemy, enemy_t* e[], int nbEnemies);
 
+void gravityE(SDL_Rect enemy);
+
 #endif

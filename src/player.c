@@ -43,7 +43,6 @@ void gravity(SDL_Rect rects[], int numRects, float deltaTime, player_t*p)
     {
         rects[i].y -= (GRAVITY- p->velocity) * deltaTime;
         //printf("%d\n", rects[i].y);
-
     }
 }
 

@@ -95,7 +95,7 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
     for (int i = 0; i < nbEnemies; i++)
     {
         SDL_RenderCopy(render, texture, NULL, &enemy[i]);
+        printf("%d \n", enemy[i].x);
     }
-    
 }
 
