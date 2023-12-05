@@ -14,7 +14,8 @@ typedef enum {
     TOP_COLLISION,
     BOTTOM_COLLISION,
     LEFT_COLLISION,
-    RIGHT_COLLISION
+    RIGHT_COLLISION,
+    SAD_COLLISION
 } CollisionType;
 
 CollisionType collisions(player_t *p, SDL_Rect rects[], int numRects);

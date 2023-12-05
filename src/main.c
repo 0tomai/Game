@@ -24,7 +24,7 @@ int main()
     printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
     printf("%d, %d, %d", e[1]->hp, e[1]->posX, e[1]->posY);
 
-    return 0;
+    //return 0;
 
     tailleFichier(&nbCol, &nbLigne, &nbUn, map);
     //printf("%d", nbUn);
@@ -118,7 +118,7 @@ int main()
 
     while(!terminer){
         //currentTime = SDL_GetTicks();
-        
+
         if (m->state == 0)
         {
             refresh_menu(ecran, m);
@@ -156,11 +156,34 @@ int main()
         currentTime = SDL_GetTicks();
         deltaTime = (float)(currentTime - lastTime) / 1000.0f;
         collisionType = collisions(p, destR, nbUn);
+        int machin;
         // GRAVITE
-        if(collisionType == NO_COLLISION || collisionType == BOTTOM_COLLISION)
+        if((collisionType == NO_COLLISION) || (p->is_jumping && p->timer > 0) || (collisionType == BOTTOM_COLLISION))
         {
-        gravity(destR, nbUn, deltaTime);
+            gravity(destR, nbUn, deltaTime, p);
+            if(p->is_jumping)
+            {
+                    p->timer -= 1;
+                    if(p->timer <= 0)
+                    {
+                        p->is_jumping = 0;
+                        p->velocity = 0;
+                        machin = 0;
+                    }
+                    if(collisionType == BOTTOM_COLLISION)
+                    {
+                        p->is_jumping = 0;
+                        p->velocity = 0;
+                    }
+             }
         }
+        if(collisionType == TOP_COLLISION)
+        {
+            p->timer = 20;
+            machin = 0;
+            p->nbJump = 0;
+        }
+        
         lastTime = currentTime;
         SDL_PollEvent( &evenements );
         if (m->state == 0)
@@ -226,6 +249,7 @@ int main()
                     l = true;
                     break;
                 case SDLK_SPACE:
+                    
                     s = true;
                     break;
                 default:
@@ -243,6 +267,16 @@ int main()
                     l = false;
                     break;
                 case SDLK_SPACE:
+                    p->nbJump++;
+                    printf("%d\n", p->nbJump);
+                    if(p->nbJump < p->nbJumpCan)
+                    {
+                        machin = 1;
+                        p->timer = 20;
+                    }else
+                    {
+                        machin = 0;
+                    }
                     s = false;
                     break;
                 default:
@@ -252,7 +286,7 @@ int main()
             if (r)
             {                
                 collisionType = collisions(p, destR, nbUn);
-                if(collisionType == NO_COLLISION || collisionType == RIGHT_COLLISION || collisionType == TOP_COLLISION)
+                if(collisionType != LEFT_COLLISION && collisionType != SAD_COLLISION)
                 {
                     for(int i = 0; i < nbUn; i++)
                     {
@@ -263,12 +297,16 @@ int main()
                     switch (collisionType)
                     {
                         case LEFT_COLLISION:
-                            printf("LEFT\n");
                             for(int i = 0; i < nbUn; i++)
                             {
-                                destR[i].x = destR[i].x+3;
+                                destR[i].x = destR[i].x+6;
                             }
                             break;
+                        case SAD_COLLISION:
+                            for(int i = 0; i < nbUn; i++)
+                            {
+                                destR[i].x = destR[i].x+6;
+                            }
                         default:
                             break;
                     }
@@ -278,7 +316,7 @@ int main()
             if (l)
             {
                 collisionType = collisions(p, destR, nbUn);
-                    if(collisionType == NO_COLLISION || collisionType == LEFT_COLLISION  || collisionType == TOP_COLLISION){
+                    if(collisionType != RIGHT_COLLISION && collisionType != SAD_COLLISION){
                     for(int i = 0; i < nbUn; i++)
                     {
                         destR[i].x = destR[i].x+(200 * deltaTime);
@@ -288,12 +326,16 @@ int main()
                     switch (collisionType)
                     {
                         case RIGHT_COLLISION:
-                            printf("LEFT\n");
                             for(int i = 0; i < nbUn; i++)
                             {
-                                destR[i].x = destR[i].x-3;
+                                destR[i].x = destR[i].x-6;
                             }
                             break;
+                        case SAD_COLLISION:
+                            for(int i = 0; i < nbUn; i++)
+                            {
+                                destR[i].x = destR[i].x-6;
+                            }
                         default:
                             break;
                     }
@@ -301,11 +343,17 @@ int main()
             }  
             if (s)
             {
+                
                 collisionType = collisions(p, destR, nbUn);
-                if(collisionType == TOP_COLLISION)
+                if(collisionType == TOP_COLLISION || machin)
                 {
-                    jump(destR, nbUn, deltaTime);
+                    p->is_jumping = 1;
+                    p->velocity = 300;
                 }
+            }else 
+            {
+                    p->velocity = 0;
+                    p->is_jumping = 0;
             }
         }
     }
