@@ -11,6 +11,8 @@ player_t* initPlayer(player_t *p, float x, int y)
         p->dirX = 0;
         p->is_jumping = 0; 
         p->timer = 20;
+        p->nbJump = 0;
+        p->nbJumpCan = 3;
     return p;
 }
 void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Texture* texture)

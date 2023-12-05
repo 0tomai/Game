@@ -156,6 +156,7 @@ int main()
         currentTime = SDL_GetTicks();
         deltaTime = (float)(currentTime - lastTime) / 1000.0f;
         collisionType = collisions(p, destR, nbUn);
+        int machin;
         // GRAVITE
         if((collisionType == NO_COLLISION) || (p->is_jumping && p->timer > 0) || (collisionType == BOTTOM_COLLISION))
         {
@@ -167,6 +168,7 @@ int main()
                     {
                         p->is_jumping = 0;
                         p->velocity = 0;
+                        machin = 0;
                     }
                     if(collisionType == BOTTOM_COLLISION)
                     {
@@ -174,6 +176,12 @@ int main()
                         p->velocity = 0;
                     }
              }
+        }
+        if(collisionType == TOP_COLLISION)
+        {
+            p->timer = 20;
+            machin = 0;
+            p->nbJump = 0;
         }
         
         lastTime = currentTime;
@@ -241,6 +249,7 @@ int main()
                     l = true;
                     break;
                 case SDLK_SPACE:
+                    
                     s = true;
                     break;
                 default:
@@ -258,6 +267,16 @@ int main()
                     l = false;
                     break;
                 case SDLK_SPACE:
+                    p->nbJump++;
+                    printf("%d\n", p->nbJump);
+                    if(p->nbJump < p->nbJumpCan)
+                    {
+                        machin = 1;
+                        p->timer = 20;
+                    }else
+                    {
+                        machin = 0;
+                    }
                     s = false;
                     break;
                 default:
@@ -324,18 +343,17 @@ int main()
             }  
             if (s)
             {
+                
                 collisionType = collisions(p, destR, nbUn);
-                if(collisionType == TOP_COLLISION)
+                if(collisionType == TOP_COLLISION || machin)
                 {
-                    //jump(destR, nbUn, deltaTime);
-                    p->velocity = 300;
-                    p->timer = 20;
                     p->is_jumping = 1;
+                    p->velocity = 300;
                 }
             }else 
             {
-                p->velocity = 0;
-                p->is_jumping = 0;
+                    p->velocity = 0;
+                    p->is_jumping = 0;
             }
         }
     }
