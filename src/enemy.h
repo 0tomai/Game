@@ -29,4 +29,6 @@ void prepare_enemies(SDL_Rect* enemy, enemy_t* e[], int nbEnemies);
 
 void linkedCreate(enemy_t* e, int hp, int posX, int posY);
 
+void gravityE(SDL_Rect enemy);
+
 #endif

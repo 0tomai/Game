@@ -77,7 +77,15 @@ void readEnemy(enemy_t* e[], char path[]){
 
 void linkedCreate(enemy_t* e, int hp, int posX, int posY){
     enemy_t* current = e;
-    while (current->next != NULL)
+    if (current->hp == NULL)
+    {
+        current->hp = hp;
+        current->posX = posX;
+        current->posY = posY; 
+    }
+    else
+    {
+        while (current->next != NULL)
     {
         current = current->next;
     }
@@ -86,6 +94,9 @@ void linkedCreate(enemy_t* e, int hp, int posX, int posY){
     current->next->hp = hp;
     current->next->posX = posX;
     current->next->posY = posY; 
+    }
+    
+    
 }
 
 void readEnemyList(enemy_t* e, char path[]){
@@ -187,7 +198,7 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
     for (int i = 0; i < nbEnemies; i++)
     {
         SDL_RenderCopy(render, texture, NULL, &enemy[i]);
+        printf("%d \n", enemy[i].x);
     }
-    
 }
 
