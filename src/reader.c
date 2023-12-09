@@ -83,7 +83,7 @@ void fill_tab(int ** tab, char path[]){
     }
 }
 
-void reading(char map[], SDL_Rect* r) {
+void reading(char map[], SDL_Rect* r, chp_t* c) {
     
     int nbCol = 0;
     int nbLigne= 0;
@@ -122,6 +122,8 @@ void reading(char map[], SDL_Rect* r) {
 
                     break;
                 case 2:
+                    c->posX = posx;
+                    c->posY = poys-1025;
                     //SDL_RenderCopy(renderer, c, NULL, &destRect);
                     break;
                 default:

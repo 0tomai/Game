@@ -10,15 +10,17 @@ SDL_Renderer* init_jeu(jeu_t* m, SDL_Renderer* r, player_t* p){
     return r;
 }
 
-void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture, SDL_Texture* ch, char map[], SDL_Rect* rec, int nbUn, SDL_Rect* play, SDL_Texture* playerText){
+void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture, SDL_Texture* ch, char map[], SDL_Rect* rec, int nbUn, SDL_Rect* play, SDL_Rect* chp, SDL_Texture* playerText){
         //SDL_Delay(20);
         SDL_RenderClear(r);
         SDL_RenderCopy(r, c->fond, NULL, NULL);
         printPlayer(c->play, r, play, playerText);
+        printChp(chp, r, ch);
         //reading(r, texture, ch, map, rec);
         for(int i =0; i<nbUn; i++){
             SDL_RenderCopy(r, texture, NULL, &rec[i]);
         }
+
         SDL_RenderPresent(r);
 }
 

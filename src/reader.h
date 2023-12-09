@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "checkpoint.h"
 
 #include "image.h"
 
@@ -13,6 +14,6 @@ int** init_tab(int l, int c);
 
 void fill_tab(int** tab, char path[]);
 
-void reading(char map[], SDL_Rect* r);
+void reading(char map[], SDL_Rect* r, chp_t* c);
 
 #endif

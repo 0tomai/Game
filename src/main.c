@@ -10,6 +10,7 @@
 
 int main()
 {
+    
     int nbCol = 0;
     int nbLigne= 0;
     int nbUn= 0;
@@ -89,6 +90,8 @@ int main()
 
     player_t* p = malloc(sizeof(player_t));
 
+    chp_t* chkp = malloc(sizeof(chp_t));
+
     //enemy_t * e = malloc(sizeof(enemy_t));
     
     
@@ -107,6 +110,12 @@ int main()
     SDL_Rect destR[nbCol*nbLigne];
 
     SDL_Rect play;
+
+    SDL_Rect cp;
+    cp.h = 32;
+    cp.w = 32;
+    cp.x = 0;
+    cp.y = 0;
 
     Uint32 lastTime = SDL_GetTicks();
     float deltaTime;
@@ -137,7 +146,10 @@ int main()
     if (checkpoint == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
-    reading(map, destR);
+    reading(map, destR, chkp);
+    cp.x = chkp->posX;
+    cp.y = chkp->posY;
+    printf("TRUC MERDE %d, %d, %d, %d\n", cp.h, cp.w, cp.x, cp.y);
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     bool r = false;
@@ -173,8 +185,9 @@ int main()
         }
         if (game->state == 0)
         {
-            refresh_jeu(ecran, game, terrain, checkpoint, map, destR, nbUn, &play, joueur);
+            refresh_jeu(ecran, game, terrain, checkpoint, map, destR, nbUn, &play, &cp ,joueur);
             print_enemies(enemies, nbEnemies, ecran, enemy);
+            //SDL_RenderCopy(ecran, checkpoint, NULL, &cp);
             
             SDL_RenderPresent(ecran);
         }
@@ -271,7 +284,7 @@ int main()
                         strcpy(map, "src/mapp.txt");
                         
                         tailleFichier(&nbLigne, &nbCol, &nbUn, map);
-                        reading(map, destR);
+                        reading(map, destR, chkp);
 
                         printf("%d", nbUn);
                         break;
@@ -335,7 +348,7 @@ int main()
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType != LEFT_COLLISION && collisionType != SAD_COLLISION){
                     for(int i = 0; i < nbUn; i++){
-                        destR[i].x = destR[i].x-(200 * deltaTime);
+                        destR[i].x = destR[i].x-(185 * deltaTime);
                     }
                     for (int i = 0; i < nbEnemies; i++){
                             enemies[i].x = enemies[i].x-(200 * deltaTime);
