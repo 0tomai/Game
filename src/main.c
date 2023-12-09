@@ -17,18 +17,32 @@ int main()
     char map[15] = "src/map.txt";
     tailleFichier(&nbCol, &nbEnemies, &nbUn, "src/enemies.txt");
     enemy_t * e[nbEnemies];
-    for (int i = 0; i < nbEnemies; i++)
-    {
-        e[i] = malloc(sizeof(enemy_t));
-    }
-    readEnemy(e, "src/enemies.txt");
+    enemy_t * chain = malloc(sizeof(enemy_t));
+
+    chain->hp = 10; 
+    chain->posX = 20;
+    chain->posY = 30;
+    chain->next = NULL;
+    readEnemyList(chain, "src/enemies.txt");
+    // for (int i = 0; i < nbEnemies; i++)
+    // {
+    //     e[i] = malloc(sizeof(enemy_t));
+    
+    // }
+    // readEnemy(e, "src/enemies.txt");
+
 
     SDL_Rect enemies[nbEnemies];
-    
 
-    printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
-    printf("%d, %d, %d\n", e[1]->hp, e[1]->posX, e[1]->posY);
-    printf("%d, %d, %d\n", e[2]->hp, e[2]->posX, e[2]->posY);
+    printf("%d, %d, %d\n", chain->hp, chain->posX, chain->posY);    
+    printf("%d, %d, %d\n", chain->next->hp, chain->next->posX, chain->next->posY);
+    printf("%d, %d, %d\n", chain->next->next->hp, chain->next->next->posX, chain->next->next->posY);
+
+
+
+    // printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
+    // printf("%d, %d, %d\n", e[1]->hp, e[1]->posX, e[1]->posY);
+    // printf("%d, %d, %d\n", e[2]->hp, e[2]->posX, e[2]->posY);
     //return 0;
 
     nbCol = 0;
@@ -127,7 +141,7 @@ int main()
     bool r = false;
     bool l = false;
     bool s = false;
-    prepare_enemies(enemies, e, nbEnemies);
+    prepare_enemies_list(enemies, chain, nbEnemies);
 
     while(!terminer){
         //currentTime = SDL_GetTicks();
@@ -401,6 +415,7 @@ int main()
                     p->is_jumping = 0;
             }
         }
+        SDL_Delay(20);
     }
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);

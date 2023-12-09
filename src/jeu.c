@@ -11,7 +11,7 @@ SDL_Renderer* init_jeu(jeu_t* m, SDL_Renderer* r, player_t* p){
 }
 
 void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture, SDL_Texture* ch, char map[], SDL_Rect* rec, int nbUn, SDL_Rect* play, SDL_Texture* playerText){
-        SDL_Delay(20);
+        //SDL_Delay(20);
         SDL_RenderClear(r);
         SDL_RenderCopy(r, c->fond, NULL, NULL);
         printPlayer(c->play, r, play, playerText);
