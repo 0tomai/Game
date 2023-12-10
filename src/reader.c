@@ -123,7 +123,7 @@ void reading(char map[], SDL_Rect* r, chp_t* c) {
                     break;
                 case 2:
                     c->posX = posx;
-                    c->posY = poys-1025;
+                    c->posY = poys-720;
                     //SDL_RenderCopy(renderer, c, NULL, &destRect);
                     break;
                 default:

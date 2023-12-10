@@ -206,6 +206,7 @@ int main()
             collisionType2 = collisionsEnemy(enemies[i], destR, nbUn);
              if(collisionType2 != TOP_COLLISION)
              {
+                
                 enemies[i].y += (100- p->velocity) * deltaTime;
              }
         }
@@ -218,8 +219,15 @@ int main()
             // for (int i = 0; i < nbEnemies; i++){
             //         enemies[i].y += (100- p->velocity) * deltaTime;
             //     }
-            if(p->is_jumping)
+            if (p->is_jumping == 0)
             {
+                cp.y -= (100- p->velocity) * deltaTime;
+            }
+            
+                                    //;
+            if(p->is_jumping) 
+            {
+                cp.y -= (100- p->velocity) * deltaTime;
                 for (int i = 0; i < nbEnemies; i++){
                         enemies[i].y -= (100- p->velocity) * deltaTime;
                  }
@@ -242,6 +250,15 @@ int main()
             p->timer = 20;
             machin = 0;
             p->nbJump = 0;
+        }
+        if ((p->posX - cp.x <= abs(32)) && (p->posY - cp.y <= abs(32)))
+        {
+                strcpy(map, "src/mapp.txt");
+                        
+                        tailleFichier(&nbLigne, &nbCol, &nbUn, map);
+                        reading(map, destR, chkp);
+                        cp.x = chkp->posX;
+                        cp.y = chkp->posY;
         }
         
         lastTime = currentTime;
@@ -347,17 +364,18 @@ int main()
             if (r){                
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType != LEFT_COLLISION && collisionType != SAD_COLLISION){
+                    cp.x = cp.x - (185 * deltaTime);
                     for(int i = 0; i < nbUn; i++){
                         destR[i].x = destR[i].x-(185 * deltaTime);
                     }
                     for (int i = 0; i < nbEnemies; i++){
-                            enemies[i].x = enemies[i].x-(200 * deltaTime);
+                            enemies[i].x = enemies[i].x-(185 * deltaTime);
                         }
                 }else
                 {
                     switch (collisionType){
                         case LEFT_COLLISION:
-
+                            cp.x = cp.x +6;
                             for (int i = 0; i < nbEnemies; i++){
                                 enemies[i].x = enemies[i].x+6;
                             }
@@ -366,7 +384,8 @@ int main()
                             }
                             break;
                         case SAD_COLLISION:
-                        for (int i = 0; i < nbEnemies; i++){
+                            cp.x = cp.x +6;
+                            for (int i = 0; i < nbEnemies; i++){
                                 enemies[i].x = enemies[i].x+6;
                             }
                             for(int i = 0; i < nbUn; i++){
@@ -382,7 +401,7 @@ int main()
             if (l){
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType != RIGHT_COLLISION && collisionType != SAD_COLLISION){
-
+                        cp.x = cp.x + (200 * deltaTime);
                         for (int i = 0; i < nbEnemies; i++){
                             enemies[i].x = enemies[i].x+(200 * deltaTime);
                         }  
@@ -393,6 +412,7 @@ int main()
                 {
                     switch (collisionType){
                         case RIGHT_COLLISION:
+                            cp.x = cp.x -6;
                             for (int i = 0; i < nbEnemies; i++){
                                 enemies[i].x = enemies[i].x-6;
                             }
@@ -401,6 +421,7 @@ int main()
                             }
                             break;
                         case SAD_COLLISION:
+                            cp.x = cp.x -6;
                             for (int i = 0; i < nbEnemies; i++){
                                 enemies[i].x = enemies[i].x-6;
                             }
