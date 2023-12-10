@@ -1,3 +1,3 @@
-hp:50/posx:410/posy:333/
-hp:30/posx:450/posy:30/
-hp:40/posx:460/posy:339/
+hp:90/posx:410/posy:333/
+hp:90/posx:450/posy:30/
+hp:90/posx:460/posy:200/

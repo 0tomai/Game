@@ -7,6 +7,7 @@
 #include "collision.h"
 #include <stdbool.h>
 #include "enemy.h"
+#include "fight.h"
 
 int main()
 {
@@ -264,6 +265,17 @@ int main()
                         cp.y = chkp->posY;
         }
         
+        // Detection collision avec un ennemi 
+        for (int i = 0; i < nbEnemies; i++) {
+        if (playerEnemyCollision(p, enemies[i]) && !p->isFighting) {
+            //printf("HP : %d \n", e[i+1]->hp);
+            p->isFighting = 1;
+            printf("Player collided with enemy %d\n", i);
+            startCombat(ecran, p, e[i+1]);
+
+            }
+        }
+
         lastTime = currentTime;
         SDL_PollEvent( &evenements );
         if (m->state == 0)
@@ -364,7 +376,7 @@ int main()
             }
             // DEPLACEMENT DU JOUEUR
             // right
-            if (r){                
+            if (r && !p->isFighting){                
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType != LEFT_COLLISION && collisionType != SAD_COLLISION){
                     cp.x = cp.x - (185 * deltaTime);
@@ -401,7 +413,7 @@ int main()
                 }
             }
             // left
-            if (l){
+            if (l && !p->isFighting){
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType != RIGHT_COLLISION && collisionType != SAD_COLLISION){
                         cp.x = cp.x + (200 * deltaTime);
@@ -437,7 +449,7 @@ int main()
                 }
             }  
             // jump
-            if (s){
+            if (s && !p->isFighting){
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType == TOP_COLLISION || machin){
                     p->is_jumping = 1;

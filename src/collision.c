@@ -62,12 +62,10 @@ CollisionType collisionsEnemy(SDL_Rect e, SDL_Rect rects[], int numRects)
                         return SAD_COLLISION;
                     }
                 }
-                printf("BOTTOM \n");
                 return BOTTOM_COLLISION;
             }
             else if (topDistance <= bottomDistance && topDistance <= leftDistance && topDistance <= rightDistance)
             {
-                printf("TOP \n");
                 return TOP_COLLISION;
             }
             else if (rightDistance <= leftDistance && rightDistance <= bottomDistance && rightDistance <= topDistance)
@@ -82,4 +80,12 @@ CollisionType collisionsEnemy(SDL_Rect e, SDL_Rect rects[], int numRects)
     }
 
     return NO_COLLISION;
+}
+
+bool playerEnemyCollision(player_t *player, SDL_Rect enemy) {
+    if (player->posX + 32 > enemy.x && player->posX < enemy.x + enemy.w &&
+        player->posY + 32 > enemy.y && player->posY < enemy.y + enemy.h) {
+        return true;
+    }
+    return false;
 }

@@ -13,6 +13,8 @@ player_t* initPlayer(player_t *p, float x, int y)
         p->timer = 20;
         p->nbJump = 0;
         p->nbJumpCan = 3;
+        p->hp = 100;
+        p->isFighting = 0;
     return p;
 }
 void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Texture* texture)

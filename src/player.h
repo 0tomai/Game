@@ -20,6 +20,8 @@ struct player
     int timer;
     int nbJumpCan;
     int nbJump;
+    float hp;
+    int isFighting;
 }; typedef struct player player_t;
 
 void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Texture* texture);
