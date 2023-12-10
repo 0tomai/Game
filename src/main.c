@@ -222,6 +222,9 @@ int main()
             if (p->is_jumping == 0)
             {
                 cp.y -= (100- p->velocity) * deltaTime;
+                for (int i = 0; i < nbEnemies; i++){
+                        enemies[i].y -= (100- p->velocity) * deltaTime;
+                 }
             }
             
                                     //;
