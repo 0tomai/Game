@@ -13,11 +13,11 @@ typedef enum {
     COMBAT_OVER
 } CombatState;
 
-void startCombat(SDL_Renderer *renderer, player_t *player, enemy_t *enemy);
+void startCombat(SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t* head, SDL_Rect *enemies, int *nbEnemies, int index);
 void renderCombatUI(SDL_Renderer *renderer, player_t *player, enemy_t *enemy);
-void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy);
-void handleEnemyAttack(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy);
+void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index);
+void handleEnemyAttack(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index);
 bool isCombatOver(player_t *player, enemy_t *enemy);
-void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy);
+void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index);
 
 #endif // COMBAT_H

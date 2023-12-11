@@ -5,6 +5,8 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
 #include <SDL2/SDL_ttf.h>
 #include "image.h"
 #include "player.h"
@@ -21,4 +23,5 @@ typedef enum {
 
 CollisionType collisions(player_t *p, SDL_Rect rects[], int numRects);
 CollisionType collisionsEnemy(SDL_Rect e, SDL_Rect rects[], int numRects);
+bool playerEnemyCollision(player_t *player, SDL_Rect enemy);
 #endif // COLLISION_H

@@ -202,3 +202,36 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
     }
 }
 
+void removeEnemy(enemy_t* head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {
+    enemy_t* current = head;
+    enemy_t* previous = NULL;
+
+    while (current != NULL) {
+        if (current == target) {
+            if (previous == NULL) {
+                head = current->next;
+            } else {
+                previous->next = current->next;
+            }
+            printf("CA VMARCHE CA ? \n");
+            free(current);
+            break;
+        }
+
+        previous = current;
+        current = current->next;
+    }
+    // printf("CA VIENT DE LA \n");
+    // printf("ET DE %d\n", index);
+    // printf("Before decrement: *nbEnemies = %d\n", *nbEnemies);
+for (int i = index; i < *nbEnemies - 1; ++i) {
+    // printf("ET DE %d\n", i);
+    // printf("enemies[%d].x = %d, enemies[%d].y = %d\n", i, enemies[i].x, i, enemies[i].y);
+    enemies[i] = enemies[i + 1];
+}
+
+//printf("Before decrement: *nbEnemies = %d\n", *nbEnemies);
+(*nbEnemies)--;
+//printf("After decrement: *nbEnemies = %d\n", *nbEnemies);
+}
+

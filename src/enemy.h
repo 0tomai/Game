@@ -28,6 +28,7 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
 void prepare_enemies(SDL_Rect* enemy, enemy_t* e[], int nbEnemies);
 
 void linkedCreate(enemy_t* e, int hp, int posX, int posY);
+void removeEnemy(enemy_t* head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index);
 
 void gravityE(SDL_Rect enemy);
 

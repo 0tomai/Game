@@ -18,7 +18,7 @@ int main()
     int nbEnemies = 0;
     char map[15] = "src/map.txt";
     tailleFichier(&nbCol, &nbEnemies, &nbUn, "src/enemies.txt");
-    nbEnemies;
+    //nbEnemies;
     enemy_t * e[nbEnemies];
     enemy_t * chain = malloc(sizeof(enemy_t));
 
@@ -41,7 +41,8 @@ int main()
     printf("%d, %d, %d\n", chain->next->hp, chain->next->posX, chain->next->posY);
     printf("%d, %d, %d\n", chain->next->next->hp, chain->next->next->posX, chain->next->next->posY);
 
-
+    
+    
 
     // printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
     // printf("%d, %d, %d\n", e[1]->hp, e[1]->posX, e[1]->posY);
@@ -266,15 +267,20 @@ int main()
         }
         
         // Detection collision avec un ennemi 
+        enemy_t * chainCopy = chain;
         for (int i = 0; i < nbEnemies; i++) {
         if (playerEnemyCollision(p, enemies[i]) && !p->isFighting) {
-            //printf("HP : %d \n", e[i+1]->hp);
+            printf("HP : %d \n", chainCopy->hp);
             p->isFighting = 1;
             printf("Player collided with enemy %d\n", i);
-            startCombat(ecran, p, e[i+1]);
-
+            startCombat(ecran, p, chainCopy, chain, enemies, &nbEnemies, i);
+            
+        
+        }else {
+            chainCopy = chain->next;
             }
         }
+    
 
         lastTime = currentTime;
         SDL_PollEvent( &evenements );
