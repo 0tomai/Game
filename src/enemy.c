@@ -94,6 +94,7 @@ void linkedCreate(enemy_t* e, int hp, int posX, int posY){
     current->next->hp = hp;
     current->next->posX = posX;
     current->next->posY = posY; 
+    //current->next->next = NULL;
     }
     
     
@@ -202,18 +203,23 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
     }
 }
 
-void removeEnemy(enemy_t* head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {
-    enemy_t* current = head;
+void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {
+    enemy_t* current = *head;
     enemy_t* previous = NULL;
 
     while (current != NULL) {
         if (current == target) {
             if (previous == NULL) {
-                head = current->next;
+                if(current->next != NULL)
+                {
+                    *head = current->next;
+                }else 
+                {
+                    break;
+                }
             } else {
                 previous->next = current->next;
             }
-            printf("CA VMARCHE CA ? \n");
             free(current);
             break;
         }
@@ -221,17 +227,12 @@ void removeEnemy(enemy_t* head, enemy_t* target, SDL_Rect *enemies, int *nbEnemi
         previous = current;
         current = current->next;
     }
-    // printf("CA VIENT DE LA \n");
-    // printf("ET DE %d\n", index);
-    // printf("Before decrement: *nbEnemies = %d\n", *nbEnemies);
+    printf("index %d\n", index);
+    printf("nbEnemies %d\n", *nbEnemies);
 for (int i = index; i < *nbEnemies - 1; ++i) {
-    // printf("ET DE %d\n", i);
-    // printf("enemies[%d].x = %d, enemies[%d].y = %d\n", i, enemies[i].x, i, enemies[i].y);
+    printf("donc ca on le fait pas\n");
     enemies[i] = enemies[i + 1];
 }
-
-//printf("Before decrement: *nbEnemies = %d\n", *nbEnemies);
 (*nbEnemies)--;
-//printf("After decrement: *nbEnemies = %d\n", *nbEnemies);
 }
 

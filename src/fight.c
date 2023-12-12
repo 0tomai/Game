@@ -27,7 +27,7 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
                 if (isCombatOver(player, enemy)) {
                     printf("OVER\n");
                     *combatState = COMBAT_OVER;
-                    removeEnemy(head, enemy, enemies, nbEnemies, index);
+                    removeEnemy(&head, enemy, enemies, nbEnemies, index);
                     player->isFighting = 0;
                     return;
                 }
@@ -97,7 +97,7 @@ void handleEnemyAttack(CombatState* combatState, SDL_Renderer *renderer, player_
     printf("Enemy attacks! Player health: %f\n", player->hp);
 
     *combatState = COMBAT_PLAYER_TURN;
-    SDL_Delay(300);
+    //SDL_Delay(300);
     //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
 }
 
