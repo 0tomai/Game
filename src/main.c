@@ -151,7 +151,6 @@ int main()
     reading(map, destR, chkp);
     cp.x = chkp->posX;
     cp.y = chkp->posY;
-    printf("TRUC MERDE %d, %d, %d, %d\n", cp.h, cp.w, cp.x, cp.y);
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     bool r = false;
@@ -206,7 +205,7 @@ int main()
         for(int i = 0; i < nbEnemies; i++)
         {
             collisionType2 = collisionsEnemy(enemies[i], destR, nbUn);
-             if(collisionType2 != TOP_COLLISION && !p->is_jumping)
+             if(collisionType2 == NO_COLLISION && !p->is_jumping)
              {
                 
                 enemies[i].y += (100- p->velocity) * deltaTime;
@@ -360,7 +359,7 @@ int main()
                     break;
                 case SDLK_SPACE:
                     p->nbJump++;
-                    printf("%d\n", p->nbJump);
+                   // printf("%d\n", p->nbJump);
                     if(p->nbJump < p->nbJumpCan)
                     {
                         machin = 1;
@@ -380,12 +379,12 @@ int main()
             if (r && !p->isFighting){                
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType != LEFT_COLLISION && collisionType != SAD_COLLISION){
-                    cp.x = cp.x - (185 * deltaTime);
+                    cp.x = cp.x - (200 * deltaTime);
                     for(int i = 0; i < nbUn; i++){
-                        destR[i].x = destR[i].x-(185 * deltaTime);
+                        destR[i].x = destR[i].x-(200 * deltaTime);
                     }
                     for (int i = 0; i < nbEnemies; i++){
-                            enemies[i].x = enemies[i].x-(185 * deltaTime);
+                            enemies[i].x = enemies[i].x-(200 * deltaTime);
                         }
                 }else
                 {

@@ -29,7 +29,7 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
                     *combatState = COMBAT_OVER;
                     removeEnemy(&head, enemy, enemies, nbEnemies, index);
                     player->isFighting = 0;
-                    return;
+                    //return;
                 }else if (player->hp <= 0)
                 {
                     printf("OVER\n");
@@ -46,6 +46,7 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
                     printf("OVER\n");
                     *combatState = COMBAT_OVER;
                     removeEnemy(&head, enemy, enemies, nbEnemies, index);
+                    player->isFighting = 0;
                     return;
                 }else if (player->hp <= 0)
                 {
@@ -86,8 +87,6 @@ void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player
     printf("Player attacks! Enemy health: %d\n", enemy->hp);
 
     *combatState = COMBAT_ENEMY_TURN;
-    //SDL_Delay(20);
-
     //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
 }
 
@@ -98,7 +97,6 @@ void handleEnemyAttack(CombatState* combatState, SDL_Renderer *renderer, player_
     printf("Enemy attacks! Player health: %f\n", player->hp);
 
     *combatState = COMBAT_PLAYER_TURN;
-    //SDL_Delay(20);
     //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
 }
 
@@ -110,9 +108,9 @@ void renderGameOverText(SDL_Renderer *renderer) {
     SDL_Texture *gameOverTexture = charger_image("src/game_over_texture.bmp", renderer);
 
     int screenWidth, screenHeight;
-    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    //SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
     //printf("%d, %d \n", screenHeight, screenWidth);
-    SDL_Rect gameOverRect = {0, 0, screenWidth, screenHeight};
+    SDL_Rect gameOverRect = {0, 0, 1280, 720};
 
     SDL_RenderClear(renderer);
 
@@ -121,7 +119,7 @@ void renderGameOverText(SDL_Renderer *renderer) {
 
     printf("FINI\n");
 
-    SDL_Delay(300000);
+    SDL_Delay(30);
     SDL_DestroyTexture(gameOverTexture);
 }
 

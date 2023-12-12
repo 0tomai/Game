@@ -207,7 +207,6 @@ void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnem
     enemy_t* current = *head;
     enemy_t* previous = NULL;
     while (current != NULL) {
-    printf("%d, %d, %d\n", current->hp, current->posX, current->posY);    
 
         if (current == target) {
             if (previous == NULL) {
@@ -230,9 +229,7 @@ void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnem
         current = current->next;
 
     }
-    if(current->next != NULL){
-    printf("%d, %d, %d\n", current->next->hp, current->next->posX, current->next->posY);
-    }
+
 
     printf("index %d\n", index);
     printf("nbEnemies %d\n", *nbEnemies);

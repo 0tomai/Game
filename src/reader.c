@@ -127,6 +127,7 @@ void reading(char map[], SDL_Rect* r, chp_t* c) {
                     //SDL_RenderCopy(renderer, c, NULL, &destRect);
                     break;
                 default:
+                    break;
             }
 
         }
