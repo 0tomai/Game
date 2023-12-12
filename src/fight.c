@@ -24,28 +24,37 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
 
             case COMBAT_PLAYER_TURN:
 
-                if (isCombatOver(player, enemy)) {
+                if (enemy->hp <= 0) {
                     printf("OVER\n");
                     *combatState = COMBAT_OVER;
                     removeEnemy(&head, enemy, enemies, nbEnemies, index);
                     player->isFighting = 0;
                     return;
-                }
+                }else if (player->hp <= 0)
+                {
+                    printf("OVER\n");
+                    *combatState = COMBAT_OVER;
+                    renderGameOverText(renderer);
+                    player->isFighting = 0;
+                }else {
                 handlePlayerAttack(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
-
+                }
                 break;
 
             case COMBAT_ENEMY_TURN:
-                // if (isCombatOver(player, enemy)) {
-                //     printf("OVER\n");
-                //     *combatState = COMBAT_OVER;
-                //     removeEnemy(head, enemy);
-                //     player-
-                //player->isFighting = 0;
-                // }
+                if (enemy->hp <= 0) {
+                    printf("OVER\n");
+                    *combatState = COMBAT_OVER;
+                    removeEnemy(&head, enemy, enemies, nbEnemies, index);
+                    return;
+                }else if (player->hp <= 0)
+                {
+                    printf("OVER\n");
+                    *combatState = COMBAT_OVER;
+                    renderGameOverText(renderer);
+                }else {
                 handleEnemyAttack(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
-
-                
+                }
                 break;
 
             case COMBAT_OVER:
@@ -65,16 +74,6 @@ void renderCombatUI(SDL_Renderer *renderer, player_t *player, enemy_t *enemy) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &enemyHealthBar);
 
-    //SDL_Delay(20);
-       //SDL_RenderCopy(r, c->fond, NULL, NULL);
-        //printPlayer(c->play, r, play, playerText);
-        //printChp(chp, r, ch);
-        //reading(r, texture, ch, map, rec);
-        // for(int i =0; i<nbUn; i++){
-        //     SDL_RenderCopy(r, texture, NULL, &rec[i]);
-        // }
-
-       //
     SDL_RenderPresent(renderer);
 }
 
@@ -87,6 +86,8 @@ void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player
     printf("Player attacks! Enemy health: %d\n", enemy->hp);
 
     *combatState = COMBAT_ENEMY_TURN;
+    //SDL_Delay(20);
+
     //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
 }
 
@@ -97,10 +98,30 @@ void handleEnemyAttack(CombatState* combatState, SDL_Renderer *renderer, player_
     printf("Enemy attacks! Player health: %f\n", player->hp);
 
     *combatState = COMBAT_PLAYER_TURN;
-    //SDL_Delay(300);
+    //SDL_Delay(20);
     //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
 }
 
 bool isCombatOver(player_t *player, enemy_t *enemy) {
     return player->hp <= 0 || enemy->hp <= 0;
 }
+
+void renderGameOverText(SDL_Renderer *renderer) {
+    SDL_Texture *gameOverTexture = charger_image("src/game_over_texture.bmp", renderer);
+
+    int screenWidth, screenHeight;
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+    //printf("%d, %d \n", screenHeight, screenWidth);
+    SDL_Rect gameOverRect = {0, 0, screenWidth, screenHeight};
+
+    SDL_RenderClear(renderer);
+
+    SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverRect);
+    SDL_RenderPresent(renderer);
+
+    printf("FINI\n");
+
+    SDL_Delay(300000);
+    SDL_DestroyTexture(gameOverTexture);
+}
+

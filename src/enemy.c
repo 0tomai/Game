@@ -94,7 +94,7 @@ void linkedCreate(enemy_t* e, int hp, int posX, int posY){
     current->next->hp = hp;
     current->next->posX = posX;
     current->next->posY = posY; 
-    //current->next->next = NULL;
+    current->next->next = NULL;
     }
     
     
@@ -206,8 +206,9 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
 void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {
     enemy_t* current = *head;
     enemy_t* previous = NULL;
-
     while (current != NULL) {
+    printf("%d, %d, %d\n", current->hp, current->posX, current->posY);    
+
         if (current == target) {
             if (previous == NULL) {
                 if(current->next != NULL)
@@ -220,17 +221,23 @@ void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnem
             } else {
                 previous->next = current->next;
             }
+            printf("SUPPRESION\n");
             free(current);
             break;
         }
 
         previous = current;
         current = current->next;
+
     }
+    if(current->next != NULL){
+    printf("%d, %d, %d\n", current->next->hp, current->next->posX, current->next->posY);
+    }
+
     printf("index %d\n", index);
     printf("nbEnemies %d\n", *nbEnemies);
+    
 for (int i = index; i < *nbEnemies - 1; ++i) {
-    printf("donc ca on le fait pas\n");
     enemies[i] = enemies[i + 1];
 }
 (*nbEnemies)--;

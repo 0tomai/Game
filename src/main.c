@@ -206,7 +206,7 @@ int main()
         for(int i = 0; i < nbEnemies; i++)
         {
             collisionType2 = collisionsEnemy(enemies[i], destR, nbUn);
-             if(collisionType2 != TOP_COLLISION)
+             if(collisionType2 != TOP_COLLISION && !p->is_jumping)
              {
                 
                 enemies[i].y += (100- p->velocity) * deltaTime;
@@ -218,18 +218,13 @@ int main()
         if((collisionType == NO_COLLISION) || (p->is_jumping && p->timer > 0) || (collisionType == BOTTOM_COLLISION))
         {
             gravity(destR, nbUn, deltaTime, p);
-            // for (int i = 0; i < nbEnemies; i++){
-            //         enemies[i].y += (100- p->velocity) * deltaTime;
-            //     }
-            if (p->is_jumping == 0)
+            if (!p->is_jumping)
             {
                 cp.y -= (100- p->velocity) * deltaTime;
                 for (int i = 0; i < nbEnemies; i++){
                         enemies[i].y -= (100- p->velocity) * deltaTime;
                  }
             }
-            
-                                    //;
             if(p->is_jumping) 
             {
                 cp.y -= (100- p->velocity) * deltaTime;
@@ -457,7 +452,7 @@ int main()
             // jump
             if (s && !p->isFighting){
                 collisionType = collisions(p, destR, nbUn);
-                if(collisionType == TOP_COLLISION || machin){
+                if((collisionType == TOP_COLLISION || machin)&&(collisionType != BOTTOM_COLLISION)){
                     p->is_jumping = 1;
                     p->velocity = 300;
                 }

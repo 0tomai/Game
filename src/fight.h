@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "player.h"
 #include "enemy.h"
+#include "image.h"
 
 typedef enum {
     COMBAT_IDLE,
@@ -19,5 +20,5 @@ void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player
 void handleEnemyAttack(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index);
 bool isCombatOver(player_t *player, enemy_t *enemy);
 void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index);
-
+void renderGameOverText(SDL_Renderer *renderer);
 #endif // COMBAT_H
