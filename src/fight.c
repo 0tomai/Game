@@ -3,10 +3,7 @@
 
 void startCombat(SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t **head, SDL_Rect *enemies, int *nbEnemies, int index, jeu_t *game, SDL_Texture* enemyTexture, SDL_Texture *playerTexture) {
     srand(time(NULL));
-    //printf("FIGHT %d\n", player->isFighting);
-
     CombatState combatState = COMBAT_IDLE;
-    //printf("HP ENNEMI D2B : %d \n", enemy->hp);
     refresh_fight(&combatState, renderer, player, enemy, head, enemies, nbEnemies, index, game, enemyTexture, playerTexture);
     
 }
@@ -31,13 +28,11 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
                     return;
                 }else if (player->hp <= 0)
                 {
-                    //printf("OVER\n");
                     *combatState = COMBAT_OVER;
                     game->state = 2;
-                    //renderGameOverText(renderer);
                     player->isFighting = 0;
                 }else {
-                handlePlayerAttack(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
+                handlePlayerAttack(combatState,enemy);
                 }
                 break;
 
@@ -51,12 +46,10 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
                 {
                     *combatState = COMBAT_OVER;
                     game->state = 2;
-                    //renderGameOverText(renderer);
                 }else {
-                handleEnemyAttack(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
+                handleEnemyAttack(combatState, player);
                 }
                 break;
-
             case COMBAT_OVER:
                 break;
         }
@@ -92,10 +85,9 @@ void renderCombatUI(SDL_Renderer *renderer, player_t *player, enemy_t *enemy, SD
 }
 
 // Player Turn
-void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index) {
+void handlePlayerAttack(CombatState* combatState, enemy_t *enemy) {
     SDL_Event event;
     SDL_PollEvent(&event);
-    //renderCombatUI(renderer, player, enemy);
     if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.sym) {
             case SDLK_a: 
@@ -103,14 +95,11 @@ void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player
 
                 int dodgeChance = rand() % 100;
                 if (dodgeChance < 20) {
-                    printf("Enemy dodged the attack!\n");
                 } else {
                     enemy->hp -= playerAttackPower;
-                    printf("Player attacks! Enemy health: %d\n", enemy->hp);
                 }
 
                 *combatState = COMBAT_ENEMY_TURN;
-                //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
                 break;
             default:
                 break;
@@ -119,21 +108,18 @@ void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player
 }
 
 //Enemy Turn
-void handleEnemyAttack(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index) {
+void handleEnemyAttack(CombatState* combatState, player_t *player) {
     // Randomize enemy attack power within a range (e.g., 10 to 20)
     int enemyAttackPower = rand() % 11 + 10;
 
     // Add a chance for the player to dodge (e.g., 30% chance to dodge)
     int dodgeChance = rand() % 100;
     if (dodgeChance < 30) {
-        printf("Player dodged the attack!\n");
     } else {
         player->hp -= enemyAttackPower;
-        printf("Enemy attacks! Player health: %f\n", player->hp);
     }
 
     *combatState = COMBAT_PLAYER_TURN;
-    //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
 }
 
 bool isCombatOver(player_t *player, enemy_t *enemy) {
@@ -143,9 +129,6 @@ bool isCombatOver(player_t *player, enemy_t *enemy) {
 void renderGameOverText(SDL_Renderer *renderer) {
     SDL_Texture *gameOverTexture = charger_image("src/game_over_texture.bmp", renderer);
 
-    int screenWidth, screenHeight;
-    //SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
-    //printf("%d, %d \n", screenHeight, screenWidth);
     SDL_Rect gameOverRect = {0, 0, 1400, 720};
 
     SDL_RenderClear(renderer);

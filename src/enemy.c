@@ -219,7 +219,6 @@ void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnem
     while (current != NULL) {
         if (current == target) {
             if (previous == NULL) {
-                printf("YES\n");
                 if (current->next != NULL) {
                     *head = current->next;
                 } else {
@@ -238,6 +237,5 @@ void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnem
         enemies[i] = enemies[i + 1];
     }
     (*nbEnemies)--;
-    printf("nbEnemies %d\n", *nbEnemies);
 }
 
