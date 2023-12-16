@@ -148,15 +148,19 @@ int main()
     if (checkpoint == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
+    SDL_Texture* fin = charger_image("src/win.bmp", ecran);
+    if (checkpoint == NULL) {
+    fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
+    }
     reading(map, destR, chkp);
     cp.x = chkp->posX;
     cp.y = chkp->posY;
-    printf("TRUC MERDE %d, %d, %d, %d\n", cp.h, cp.w, cp.x, cp.y);
     SDL_Event evenements;
     int i = 0; //mx=0, my=0;
     bool r = false;
     bool l = false;
     bool s = false;
+    int map_num = 0;
     prepare_enemies_list(enemies, chain, nbEnemies);
 
     while(!terminer){
@@ -208,7 +212,6 @@ int main()
             collisionType2 = collisionsEnemy(enemies[i], destR, nbUn);
              if(collisionType2 != TOP_COLLISION && !p->is_jumping)
              {
-                
                 enemies[i].y += (100- p->velocity) * deltaTime;
              }
         }
@@ -251,15 +254,30 @@ int main()
             machin = 0;
             p->nbJump = 0;
         }
-        if ((p->posX - cp.x <= abs(32)) && (p->posY - cp.y <= abs(32)))
+        if (((p->posX - cp.x <= abs(32)) && (p->posY - cp.y <= abs(32)))&& game->state == 0)
         {
-                strcpy(map, "src/mapp.txt");
-                        
-                        tailleFichier(&nbLigne, &nbCol, &nbUn, map);
-                        reading(map, destR, chkp);
-                        cp.x = chkp->posX;
-                        cp.y = chkp->posY;
+            
+            if (map_num < 1)
+            {
+                strcpy(map, "src/mapp.txt");        
+                tailleFichier(&nbLigne, &nbCol, &nbUn, map);
+                reading(map, destR, chkp);
+
+                
+                cp.x = chkp->posX;
+                cp.y = chkp->posY;
+                map_num++;
+            }
+            else
+            {
+                SDL_RenderCopy(ecran, fin, NULL, NULL);
+                game->state = -1; // nouveau state pour restart le jeu
+                SDL_RenderPresent(ecran);
+            }
+            
         }
+        
+        
         
         // Detection collision avec un ennemi 
         enemy_t * chainCopy = chain;
@@ -461,7 +479,7 @@ int main()
                     p->is_jumping = 0;
             }
         }
-        SDL_Delay(20);
+        SDL_Delay(33);
     }
     statut = EXIT_SUCCESS;
     // SDL_DestroyTexture(fond);

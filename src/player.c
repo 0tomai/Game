@@ -13,7 +13,7 @@ player_t* initPlayer(player_t *p, float x, int y)
         p->timer = 20;
         p->nbJump = 0;
         p->nbJumpCan = 3;
-        p->hp = 100;
+        p->hp = 20000;
         p->isFighting = 0;
     return p;
 }

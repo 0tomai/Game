@@ -1,5 +1,6 @@
 #include "jeu.h"
 #include <stdbool.h>
+#include <SDL.h>
 
 SDL_Renderer* init_jeu(jeu_t* m, SDL_Renderer* r, player_t* p){
     SDL_RenderClear(r);
@@ -18,6 +19,7 @@ void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture, SDL_Texture* c
         printChp(chp, r, ch);
         //reading(r, texture, ch, map, rec);
         for(int i =0; i<nbUn; i++){
+            
             SDL_RenderCopy(r, texture, NULL, &rec[i]);
         }
 
