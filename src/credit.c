@@ -7,7 +7,7 @@ SDL_Renderer* init_credit(credit_t* m, SDL_Renderer* r){
     // Charger l’image
 
     m->state = 0;
-    m->fond = charger_image("telechargement.bmp", r);
+    m->fond = charger_image("src/telechargement.bmp", r);
 
 
     m->jouer.h = 60;

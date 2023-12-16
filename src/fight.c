@@ -77,7 +77,7 @@ void renderCombatUI(SDL_Renderer *renderer, player_t *player, enemy_t *enemy, SD
     SDL_RenderFillRect(renderer, &playerHealthBar);
 
     // Render player texture
-    SDL_Rect playerRect = {400, 500, 50, 50};
+    SDL_Rect playerRect = {400, 450, 100, 100};
     SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect);
 
     // Render enemy health bar

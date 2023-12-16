@@ -3,7 +3,6 @@
 void readEnemy(enemy_t* e[], char path[]){
     FILE* f;
     char c;
-    char strc[1];
     char param[10];
     int isNumber = 0;
     int checkHP = 0;
@@ -57,7 +56,6 @@ void readEnemy(enemy_t* e[], char path[]){
         }
         if (isNumber == 1)
         {
-            strc[0] = c;
             if (c >= 48 && c<= 57)
             {
                 param[i] = c;
@@ -72,7 +70,8 @@ void readEnemy(enemy_t* e[], char path[]){
 
         c = fgetc(f);        
     }
-  
+    fclose(f);
+
 }
 
 void linkedCreate(enemy_t* e, int hp, int posX, int posY){
@@ -103,14 +102,12 @@ void linkedCreate(enemy_t* e, int hp, int posX, int posY){
 void readEnemyList(enemy_t* e, char path[]){
     FILE* f;
     char c;
-    char strc[1];
     char param[10];
     int isNumber = 0;
     int checkHP = 0;
     int checkPosX = 0;
     int checkPosY = 0;
     int i = 0;
-    int numEnemy = 0;
     int truc=0;
     f = fopen(path, "r");
     c = fgetc(f);
@@ -149,14 +146,12 @@ void readEnemyList(enemy_t* e, char path[]){
                 checkPosY = 0;
                 checkHP = 0;
                 checkPosX = 0;
-                //numEnemy++;
             }
                         
             i = 0;
         }
         if (isNumber == 1)
         {
-            strc[0] = c;
             if (c >= 48 && c<= 57)
             {
                 param[i] = c;
@@ -171,6 +166,7 @@ void readEnemyList(enemy_t* e, char path[]){
 
         c = fgetc(f);        
     }
+    fclose(f);
 }
 
 void prepare_enemies_list(SDL_Rect* enemy, enemy_t* e, int nbEnemies){
@@ -201,6 +197,14 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
         SDL_RenderCopy(render, texture, NULL, &enemy[i]);
         //printf("%d \n", enemy[i].x);
     }
+}
+
+void write_killed_enemies(char path[], int killed){
+    FILE* f;
+    f = fopen(path, "a+");
+    fprintf(f, "%d", killed);
+    fprintf(f, ",\n");
+    fclose(f);
 }
 
 void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {

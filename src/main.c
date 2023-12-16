@@ -125,6 +125,7 @@ int main()
     bool l = false;
     bool s = false;
     int map_num = 0;
+    int nbEnemiesKilled = 0;
     prepare_enemies_list(enemies, chain, nbEnemies);
 
     while(!terminer){
@@ -265,6 +266,7 @@ int main()
                 printf("LETSTSONON\n");
             }
             startCombat(ecran, p, chainCopy, chain, enemies, &nbEnemies, i, game, enemy, joueur);
+            nbEnemiesKilled++;
         }else {
             chainCopy = chain->next;
             }
@@ -477,7 +479,7 @@ int main()
         SDL_Delay(33);
     }
     statut = EXIT_SUCCESS;
-    
+    write_killed_enemies("result.txt", nbEnemiesKilled);
     free_menu(m);
     free_jeu(game);
     free_credit(c);

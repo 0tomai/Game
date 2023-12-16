@@ -49,7 +49,8 @@ void tailleFichier(int* nbLigne, int* nbCol, int* nbChar, char path[])
     *nbCol = colonne;
     *nbLigne = max;
     *nbChar = nbUn;
-    
+    fclose(f);
+
 }
 
 int** init_tab(int l, int c){
@@ -81,6 +82,8 @@ void fill_tab(int ** tab, char path[]){
         }
         entry = fgetc(f);
     }
+        fclose(f);
+
 }
 
 void reading(char map[], SDL_Rect* r, chp_t* c) {
