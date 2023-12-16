@@ -162,6 +162,11 @@ int main()
             back2menu(m, ecran);
             game->state = -1;
         }
+        // Game Over
+        if (game->state == 2)
+        {
+            renderGameOverText(ecran);
+        }
 
         i = i+1;
         currentTime = SDL_GetTicks();
@@ -248,13 +253,18 @@ int main()
         // Detection collision avec un ennemi 
         enemy_t * chainCopy = chain;
         for (int i = 0; i < nbEnemies; i++) {
-        if (playerEnemyCollision(p, enemies[i]) && !p->isFighting) {
+        if (playerEnemyCollision(p, enemies[i]) && !p->isFighting && game->state == 0 && collisionType == TOP_COLLISION) {
             printf("HP : %d \n", chainCopy->hp);
+            r = false;
+            l = false;
+            s = false;
             p->isFighting = 1;
             printf("Player collided with enemy %d\n", i);
-            startCombat(ecran, p, chainCopy, chain, enemies, &nbEnemies, i);
-            
-        
+            if(chain == chainCopy)
+            {
+                printf("LETSTSONON\n");
+            }
+            startCombat(ecran, p, chainCopy, chain, enemies, &nbEnemies, i, game, enemy, joueur);
         }else {
             chainCopy = chain->next;
             }

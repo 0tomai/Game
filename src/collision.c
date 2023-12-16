@@ -1,5 +1,4 @@
 #include "collision.h"
-#include <stdbool.h>
 
 CollisionType collisions(player_t *p, SDL_Rect rects[], int numRects)
 {

@@ -20,7 +20,7 @@ void refresh_jeu(SDL_Renderer* r, jeu_t* c, SDL_Texture* texture, SDL_Texture* c
             SDL_RenderCopy(r, texture, NULL, &rec[i]);
         }
 
-        SDL_RenderPresent(r);
+        //SDL_RenderPresent(r);
 }
 
 void free_jeu(jeu_t* c){
