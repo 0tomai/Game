@@ -1,16 +1,12 @@
 #include "menu.h"
 #include "image.h"
 
-
+//Fonction qui initialise le renderer et associe à celui-ci les éléments initialisés du menu
 SDL_Renderer* init_renderer(SDL_Window* f, menu_t* m){
     SDL_Renderer* r = SDL_CreateRenderer(f, -1, SDL_RENDERER_ACCELERATED);
 
-    // Charger l’image
-
     m->state = 0;
     m->fond = charger_image("src/fond_menu.bmp", r);
-
-
     m->jouer.h = 100;
     m->jouer.w = 300;
     m->jouer.x = 490;
@@ -19,10 +15,7 @@ SDL_Renderer* init_renderer(SDL_Window* f, menu_t* m){
     m->credit.w = 300;
     m->credit.x = 490;
     m->credit.y = 400;
-    
-    //SDL_SetRenderDrawColor(ecran, 255, 0, 0, 255);
-    //SDL_RenderFillRect(ecran, &jouer); 
-    //SDL_RenderFillRect(ecran, &credit);  
+     
     TTF_Init();
     m->font = TTF_OpenFont("src/arial.ttf",28);
     SDL_Color cc = {0, 0, 0, 0};
@@ -34,11 +27,10 @@ SDL_Renderer* init_renderer(SDL_Window* f, menu_t* m){
     return r;
 }
 
+//Fonction qui permet de revenir au menu lorsqu'un autre affichage (jeu ou crédit) a été associé au renderer
 SDL_Renderer* back2menu(menu_t* m, SDL_Renderer* r){
     SDL_RenderClear(r);
 
-    // Charger l’image
-
     m->state = 0;
     m->fond = charger_image("src/fond_menu.bmp", r);
 
@@ -51,10 +43,7 @@ SDL_Renderer* back2menu(menu_t* m, SDL_Renderer* r){
     m->credit.w = 300;
     m->credit.x = 490;
     m->credit.y = 400;
-    
-    //SDL_SetRenderDrawColor(ecran, 255, 0, 0, 255);
-    //SDL_RenderFillRect(ecran, &jouer); 
-    //SDL_RenderFillRect(ecran, &credit);  
+     
     TTF_Init();
     m->font = TTF_OpenFont("src/arial.ttf",28);
     SDL_Color cc = {0, 0, 0, 0};
@@ -66,8 +55,9 @@ SDL_Renderer* back2menu(menu_t* m, SDL_Renderer* r){
     return r;
 }
 
+//Fonction pour update le menu
 void refresh_menu(SDL_Renderer* r, menu_t* m){
-        SDL_Delay(33);
+        
         SDL_RenderClear(r);
         SDL_RenderCopy(r, m->fond, NULL, NULL);
         SDL_SetRenderDrawColor(r, 255, 0, 0, 255);

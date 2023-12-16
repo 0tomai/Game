@@ -99,12 +99,12 @@ int main()
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
 
-    SDL_Texture* joueur = charger_image("src/player.bmp", ecran);
+    SDL_Texture* joueur = charger_image("src/player2.bmp", ecran);
     if (joueur == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
 
-    SDL_Texture* terrain = charger_image("src/terrain.bmp", ecran);
+    SDL_Texture* terrain = charger_image("src/terrain2.bmp", ecran);
     if (terrain == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
@@ -129,24 +129,26 @@ int main()
 
     while(!terminer){
 
-        if (m->state == 0)
+        if (m->state == 0) // 
         {
             refresh_menu(ecran, m);
         }
+        
         if (m->state == 2 && c->state == -1)
         {
             ecran = init_credit(c, ecran);
         }
+
         if (m->state == 1 && game->state == -1)
         {
             ecran = init_jeu(game, ecran, p);
         }
         
-        if (c->state == 0)
+        if (c->state == 0) //On rentre dans les crédits
         {
             refresh_credit(ecran, c);
         }
-        if (c->state == 1)
+        if (c->state == 1) //Quitter les crédits
         {
             back2menu(m, ecran);
             c->state = -1;
@@ -247,9 +249,7 @@ int main()
             }
             
         }
-        
-        
-        
+
         // Detection collision avec un ennemi 
         enemy_t * chainCopy = chain;
         for (int i = 0; i < nbEnemies; i++) {
@@ -481,6 +481,9 @@ int main()
     free_menu(m);
     free_jeu(game);
     free_credit(c);
+    free(p);
+    free(chkp);
+    free(chain);
     SDL_DestroyTexture(checkpoint);
     SDL_DestroyTexture(enemy);
     SDL_DestroyTexture(terrain);
