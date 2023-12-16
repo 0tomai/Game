@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <SDL2/SDL_ttf.h>
 #include "image.h"
-///#include "collision.h"
 
 struct player
 {

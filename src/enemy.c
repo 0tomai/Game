@@ -1,5 +1,6 @@
 #include "enemy.h"
 
+//Fonction non utilisée, permettait de lire et créer les différents ennemis avec un tableau
 void readEnemy(enemy_t* e[], char path[]){
     FILE* f;
     char c;
@@ -99,6 +100,7 @@ void linkedCreate(enemy_t* e, int hp, int posX, int posY){
     
 }
 
+//Procedure qui permet la lecture et l'ajout d'ennemies dans une liste chainée passée en paramètre
 void readEnemyList(enemy_t* e, char path[]){
     FILE* f;
     char c;
@@ -123,7 +125,7 @@ void readEnemyList(enemy_t* e, char path[]){
             
             isNumber = 0;
             truc = atoi(param);
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < 10; j++) //reset le tableau de charactère pour en ajouter de nouveaux
             {
                 param[j] = '\0';
             }
@@ -152,7 +154,7 @@ void readEnemyList(enemy_t* e, char path[]){
         }
         if (isNumber == 1)
         {
-            if (c >= 48 && c<= 57)
+            if (c >= 48 && c<= 57) //test le caractère donné dans le fichier texte pour verifier s'il s'agit bien d'un chiffre
             {
                 param[i] = c;
                 i++;
@@ -169,6 +171,7 @@ void readEnemyList(enemy_t* e, char path[]){
     fclose(f);
 }
 
+//procedure qui initialise les SDL_Rect correspondant aux ennemis
 void prepare_enemies_list(SDL_Rect* enemy, enemy_t* e, int nbEnemies){
     enemy_t* current = e;
     for (int i = 0; i < nbEnemies; i++)
@@ -181,6 +184,7 @@ void prepare_enemies_list(SDL_Rect* enemy, enemy_t* e, int nbEnemies){
     }
 }
 
+//procedure qui initialise les SDL_Rect correspondant aux ennemis, inutilisée car la liste chainée est utilisée
 void prepare_enemies(SDL_Rect* enemy, enemy_t* e[], int nbEnemies){
     for (int i = 0; i < nbEnemies; i++)
     {
@@ -191,14 +195,15 @@ void prepare_enemies(SDL_Rect* enemy, enemy_t* e[], int nbEnemies){
     }
 }
 
+//procedure qui permet l'affichage des ennemis 
 void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Texture* texture){
     for (int i = 0; i < nbEnemies; i++)
     {
         SDL_RenderCopy(render, texture, NULL, &enemy[i]);
-        //printf("%d \n", enemy[i].x);
     }
 }
 
+//procedure pour l'ecriture fichier du nombre d'ennemis tués pdt une partie
 void write_killed_enemies(char path[], int killed){
     FILE* f;
     f = fopen(path, "a+");
@@ -207,6 +212,7 @@ void write_killed_enemies(char path[], int killed){
     fclose(f);
 }
 
+//procedure de retrait d'un ennemi dans la liste chainée
 void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {
     enemy_t* current = *head;
     enemy_t* previous = NULL;

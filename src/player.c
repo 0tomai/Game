@@ -19,12 +19,7 @@ player_t* initPlayer(player_t *p, float x, int y)
 }
 void printPlayer(player_t *p, SDL_Renderer* renderer, SDL_Rect* destRect, SDL_Texture* texture)
 {
-    // SDL_Texture* texture = charger_image("src/player.bmp", renderer);
-    // if (texture == NULL) {
-    // fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
-    // }
 
-    // SDL_Rect destRect;
         destRect->x = p->posX;
         destRect->y = p->posY;
         destRect->w = 32;
@@ -44,7 +39,6 @@ void gravity(SDL_Rect rects[], int numRects, float deltaTime, player_t*p)
     for (int i = 0; i <= numRects; i++)
     {
         rects[i].y -= (GRAVITY- p->velocity) * deltaTime;
-        //printf("%d\n", rects[i].y);
     }
 }
 
@@ -53,7 +47,6 @@ void jump(SDL_Rect rects[], int numRects, float deltaTime)
     for (int i = 0; i < numRects; i++)
     {
         rects[i].y += JUMP_VELOCITY * deltaTime +100;
-        //printf("%d\n", rects[i].y);
 
     }
 }

@@ -18,10 +18,7 @@ SDL_Renderer* init_credit(credit_t* m, SDL_Renderer* r){
     m->credit.w = 300;
     m->credit.x = 490;
     m->credit.y = 400;
-    
-    //SDL_SetRenderDrawColor(ecran, 255, 0, 0, 255);
-    //SDL_RenderFillRect(ecran, &jouer); 
-    //SDL_RenderFillRect(ecran, &credit);  
+     
     TTF_Init();
     m->font = TTF_OpenFont("src/arial.ttf",28);
     SDL_Color cc = {0, 0, 0, 0};
