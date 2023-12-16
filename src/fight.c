@@ -1,7 +1,7 @@
 #include "fight.h"
 #include <stdio.h>
 
-void startCombat(SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index, jeu_t *game, SDL_Texture* enemyTexture, SDL_Texture *playerTexture) {
+void startCombat(SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t **head, SDL_Rect *enemies, int *nbEnemies, int index, jeu_t *game, SDL_Texture* enemyTexture, SDL_Texture *playerTexture) {
     srand(time(NULL));
     //printf("FIGHT %d\n", player->isFighting);
 
@@ -10,7 +10,7 @@ void startCombat(SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy
     refresh_fight(&combatState, renderer, player, enemy, head, enemies, nbEnemies, index, game, enemyTexture, playerTexture);
     
 }
-void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t *head, SDL_Rect *enemies, int *nbEnemies, int index, jeu_t *game, SDL_Texture* enemyTexture, SDL_Texture *playerTexture)
+void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *player, enemy_t *enemy, enemy_t **head, SDL_Rect *enemies, int *nbEnemies, int index, jeu_t *game, SDL_Texture* enemyTexture, SDL_Texture *playerTexture)
 {
     while (*combatState != COMBAT_OVER) {
      
@@ -26,8 +26,7 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
             case COMBAT_PLAYER_TURN:
                 if (enemy->hp <= 0) {
                     *combatState = COMBAT_OVER;
-                    removeEnemy(&head, enemy, enemies, nbEnemies, index);
-                    printf("FIGHT : %d\n", head->hp);
+                    removeEnemy(head, enemy, enemies, nbEnemies, index);
                     player->isFighting = 0;
                     return;
                 }else if (player->hp <= 0)
@@ -45,7 +44,7 @@ void refresh_fight(CombatState* combatState, SDL_Renderer *renderer, player_t *p
             case COMBAT_ENEMY_TURN:
                 if (enemy->hp <= 0) {
                     *combatState = COMBAT_OVER;
-                    removeEnemy(&head, enemy, enemies, nbEnemies, index);
+                    removeEnemy(head, enemy, enemies, nbEnemies, index);
                     player->isFighting = 0;
                     return;
                 }else if (player->hp <= 0)

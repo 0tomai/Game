@@ -261,11 +261,7 @@ int main()
             s = false;
             p->isFighting = 1;
             printf("Player collided with enemy %d\n", i);
-            if(chain == chainCopy)
-            {
-                printf("LETSTSONON\n");
-            }
-            startCombat(ecran, p, chainCopy, chain, enemies, &nbEnemies, i, game, enemy, joueur);
+            startCombat(ecran, p, chainCopy, &chain, enemies, &nbEnemies, i, game, enemy, joueur);
             nbEnemiesKilled++;
         }else {
             chainCopy = chain->next;
