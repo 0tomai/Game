@@ -98,11 +98,9 @@ void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player
     //renderCombatUI(renderer, player, enemy);
     if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.sym) {
-            case SDLK_a: // Change 'a' to the key you want to use for attacking
-                // Randomize player attack power within a range (e.g., 15 to 25)
+            case SDLK_a: 
                 int playerAttackPower = rand() % 21 + 80; 
 
-                // Add a chance to dodge (e.g., 20% chance to dodge)
                 int dodgeChance = rand() % 100;
                 if (dodgeChance < 20) {
                     printf("Enemy dodged the attack!\n");
@@ -114,9 +112,6 @@ void handlePlayerAttack(CombatState* combatState, SDL_Renderer *renderer, player
                 *combatState = COMBAT_ENEMY_TURN;
                 //refresh_fight(combatState, renderer, player, enemy, head, enemies, nbEnemies, index);
                 break;
-
-            // Add cases for other keys if needed
-
             default:
                 break;
         }
