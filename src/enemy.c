@@ -206,37 +206,81 @@ void print_enemies(SDL_Rect* enemy, int nbEnemies, SDL_Renderer* render, SDL_Tex
 void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {
     enemy_t* current = *head;
     enemy_t* previous = NULL;
+    if(*head == target)
+    {
+        printf("OK\n");
+        printf("HPNEXT: %d\n", (*head)->next->hp);
+        *head = current->next;
+        printf("HPNOOW: %d\n", (*head)->hp);
+        for (int i = index; i < *nbEnemies - 1; ++i) {
+        enemies[i] = enemies[i + 1];
+    }
+    (*nbEnemies)--;
+    printf("nbEnemies %d\n", *nbEnemies);
+        return;
+    }
     while (current != NULL) {
-
         if (current == target) {
             if (previous == NULL) {
-                if(current->next != NULL)
-                {
-                    *head = current->next;
-                }else 
-                {
+                printf("YES\n");
+                if (current->next != NULL) {
+                    //*head = current->next;
+                } else {
                     break;
                 }
             } else {
                 previous->next = current->next;
             }
-            printf("SUPPRESION\n");
             free(current);
             break;
         }
-
         previous = current;
         current = current->next;
-
     }
 
-
-    printf("index %d\n", index);
-    printf("nbEnemies %d\n", *nbEnemies);
     
-for (int i = index; i < *nbEnemies - 1; ++i) {
-    enemies[i] = enemies[i + 1];
+
+    for (int i = index; i < *nbEnemies - 1; ++i) {
+        enemies[i] = enemies[i + 1];
+    }
+    (*nbEnemies)--;
+    printf("nbEnemies %d\n", *nbEnemies);
 }
-(*nbEnemies)--;
-}
+
+// void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index) {
+//     enemy_t* current = *head;
+//     enemy_t* previous = NULL;
+//     while (current != NULL) {
+
+//         if (current == target) {
+//             if (previous == NULL) {
+//                 if(current->next != NULL)
+//                 {
+//                     *head = current->next;
+//                 }else 
+//                 {
+//                     break;
+//                 }
+//             } else {
+//                 previous->next = current->next;
+//             }
+//             printf("SUPPRESION\n");
+//             free(current);
+//             break;
+//         }
+
+//         previous = current;
+//         current = current->next;
+
+//     }
+
+
+//     printf("index %d\n", index);
+//     printf("nbEnemies %d\n", *nbEnemies);
+    
+// for (int i = index; i < *nbEnemies - 1; ++i) {
+//     enemies[i] = enemies[i + 1];
+// }
+// (*nbEnemies)--;
+// }
 
