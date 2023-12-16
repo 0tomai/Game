@@ -18,22 +18,13 @@ int main()
     int nbEnemies = 0;
     char map[15] = "src/map.txt";
     tailleFichier(&nbCol, &nbEnemies, &nbUn, "src/enemies.txt");
-    //nbEnemies;
-    enemy_t * e[nbEnemies];
     enemy_t * chain = malloc(sizeof(enemy_t));
 
-    chain->hp = NULL; 
-    chain->posX = NULL;
-    chain->posY = NULL;
+    chain->hp = -1; 
+    chain->posX = -1;
+    chain->posY = -1;
     chain->next = NULL;
     readEnemyList(chain, "src/enemies.txt");
-    // for (int i = 0; i < nbEnemies; i++)
-    // {
-    //     e[i] = malloc(sizeof(enemy_t));
-    
-    // }
-    // readEnemy(e, "src/enemies.txt");
-
 
     SDL_Rect enemies[nbEnemies];
 
@@ -41,30 +32,10 @@ int main()
     printf("%d, %d, %d\n", chain->next->hp, chain->next->posX, chain->next->posY);
     printf("%d, %d, %d\n", chain->next->next->hp, chain->next->next->posX, chain->next->next->posY);
 
-    
-    
-
-    // printf("%d, %d, %d\n", e[0]->hp, e[0]->posX, e[0]->posY);
-    // printf("%d, %d, %d\n", e[1]->hp, e[1]->posX, e[1]->posY);
-    // printf("%d, %d, %d\n", e[2]->hp, e[2]->posX, e[2]->posY);
-    //return 0;
 
     nbCol = 0;
     nbUn= 0;
     tailleFichier(&nbCol, &nbLigne, &nbUn, map);
-    //printf("%d", nbUn);
-    // //printf("%d %d", nbCol, nbLigne);
-
-    // int** tab = init_tab(nbLigne, nbCol);
-    // fill_tab(tab);
-    // for (int i = 0; i < nbLigne; i++)
-    // {
-    //     for (int j = 0; j < nbCol; j++)
-    //     {
-    //         printf("%d", tab[i][j]);
-    //     }        
-    //     printf("\n");
-    // }
 
     SDL_Window *window = NULL;
     int statut = EXIT_FAILURE;
@@ -94,12 +65,6 @@ int main()
 
     chp_t* chkp = malloc(sizeof(chp_t));
 
-    //enemy_t * e = malloc(sizeof(enemy_t));
-    
-    
-    //e[1]->hp = 70;
-    //printf("HP enemy 1 : %d", e->hp);
-
     initPlayer(p, 1280-640, 720-360);
 
     CollisionType collisionType;
@@ -124,7 +89,6 @@ int main()
     Uint32 currentTime = SDL_GetTicks();
 
     deltaTime = (float)(currentTime - lastTime) / SDL_GetPerformanceFrequency();
-    //printf("%d", c->state);
 
     ecran = init_renderer(window, m);
 
@@ -156,7 +120,7 @@ int main()
     cp.x = chkp->posX;
     cp.y = chkp->posY;
     SDL_Event evenements;
-    int i = 0; //mx=0, my=0;
+    int i = 0;
     bool r = false;
     bool l = false;
     bool s = false;
@@ -164,13 +128,11 @@ int main()
     prepare_enemies_list(enemies, chain, nbEnemies);
 
     while(!terminer){
-        //currentTime = SDL_GetTicks();
 
         if (m->state == 0)
         {
             refresh_menu(ecran, m);
         }
-        //printf("%d", m->state);
         if (m->state == 2 && c->state == -1)
         {
             ecran = init_credit(c, ecran);
@@ -191,10 +153,8 @@ int main()
         }
         if (game->state == 0)
         {
-            refresh_jeu(ecran, game, terrain, checkpoint, map, destR, nbUn, &play, &cp ,joueur);
-            print_enemies(enemies, nbEnemies, ecran, enemy);
-            //SDL_RenderCopy(ecran, checkpoint, NULL, &cp);
-            
+            refresh_jeu(ecran, game, terrain, checkpoint, destR, nbUn, &play, &cp ,joueur);
+            print_enemies(enemies, nbEnemies, ecran, enemy);            
             SDL_RenderPresent(ecran);
         }
         if (game->state == 1)
@@ -210,7 +170,7 @@ int main()
         for(int i = 0; i < nbEnemies; i++)
         {
             collisionType2 = collisionsEnemy(enemies[i], destR, nbUn);
-             if(collisionType2 != TOP_COLLISION && !p->is_jumping)
+             if(collisionType2 == NO_COLLISION && !p->is_jumping)
              {
                 enemies[i].y += (100- p->velocity) * deltaTime;
              }
@@ -254,7 +214,7 @@ int main()
             machin = 0;
             p->nbJump = 0;
         }
-        if (((p->posX - cp.x <= abs(32)) && (p->posY - cp.y <= abs(32)))&& game->state == 0)
+        if (((abs((int)p->posX - cp.x) <= 32) && (abs(p->posY - cp.y) <= 32)) && game->state == 0)
         {
             
             if (map_num < 1)
@@ -262,8 +222,14 @@ int main()
                 strcpy(map, "src/mapp.txt");        
                 tailleFichier(&nbLigne, &nbCol, &nbUn, map);
                 reading(map, destR, chkp);
-
-                
+                // free(chain);
+                // enemy_t * chain = malloc(sizeof(enemy_t));
+                // chain->hp = NULL; 
+                // chain->posX = NULL;
+                // chain->posY = NULL;
+                // chain->next = NULL;
+                // readEnemyList(chain, "src/enemies.txt");
+                // prepare_enemies_list(enemies, chain, nbEnemies);
                 cp.x = chkp->posX;
                 cp.y = chkp->posY;
                 map_num++;
@@ -271,7 +237,7 @@ int main()
             else
             {
                 SDL_RenderCopy(ecran, fin, NULL, NULL);
-                game->state = -1; // nouveau state pour restart le jeu
+                game->state = -2; // nouveau state pour restart le jeu
                 SDL_RenderPresent(ecran);
             }
             
@@ -329,6 +295,26 @@ int main()
                 switch(evenements.key.keysym.sym)
                 {
                     case SDLK_p:
+                        if (game->state == -2)
+                        {
+                            strcpy(map, "src/map.txt");
+                            tailleFichier(&nbLigne, &nbCol, &nbUn, map);
+                            reading(map, destR, chkp);
+                            // tailleFichier(&nbCol, &nbEnemies, &nbUn, "src/enemies.txt");
+                            // free(chain);
+                            // chain->hp = NULL; 
+                            // chain->posX = NULL;
+                            // chain->posY = NULL;
+                            // chain->next = NULL;
+                            
+                            // readEnemyList(chain, "src/enemies.txt");
+                            // prepare_enemies_list(enemies, chain, nbEnemies);
+
+                            cp.x = chkp->posX;
+                            cp.y = chkp->posY;
+                            map_num = 0;
+                        }
+                        
                         game->state = 1;
                         break;
                     case SDLK_0:
@@ -378,7 +364,6 @@ int main()
                     break;
                 case SDLK_SPACE:
                     p->nbJump++;
-                    printf("%d\n", p->nbJump);
                     if(p->nbJump < p->nbJumpCan)
                     {
                         machin = 1;
@@ -398,12 +383,12 @@ int main()
             if (r && !p->isFighting){                
                 collisionType = collisions(p, destR, nbUn);
                 if(collisionType != LEFT_COLLISION && collisionType != SAD_COLLISION){
-                    cp.x = cp.x - (185 * deltaTime);
+                    cp.x = cp.x - (200 * deltaTime);
                     for(int i = 0; i < nbUn; i++){
-                        destR[i].x = destR[i].x-(185 * deltaTime);
+                        destR[i].x = destR[i].x-(200 * deltaTime);
                     }
                     for (int i = 0; i < nbEnemies; i++){
-                            enemies[i].x = enemies[i].x-(185 * deltaTime);
+                            enemies[i].x = enemies[i].x-(200 * deltaTime);
                         }
                 }else
                 {
@@ -482,11 +467,16 @@ int main()
         SDL_Delay(33);
     }
     statut = EXIT_SUCCESS;
-    // SDL_DestroyTexture(fond);
+    
     free_menu(m);
     free_jeu(game);
     free_credit(c);
+    SDL_DestroyTexture(checkpoint);
+    SDL_DestroyTexture(enemy);
+    SDL_DestroyTexture(terrain);
+    SDL_DestroyTexture(joueur);
     SDL_DestroyRenderer(ecran);
+    SDL_DestroyTexture(fin);
     SDL_DestroyWindow(window);
     //Quit:
     SDL_Quit();
