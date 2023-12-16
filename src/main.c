@@ -303,8 +303,13 @@ int main()
                 switch(evenements.key.keysym.sym)
                 {
                     case SDLK_p:
-                        if (game->state == -2)
+                        if (game->state == -2 || game->state == 2)
                         {
+                            if (game->state == 2)
+                            {
+                                nbEnemiesKilled--;
+                            }
+                            
                             strcpy(map, "src/map.txt");
                             tailleFichier(&nbLigne, &nbCol, &nbUn, map);
                             reading(map, destR, chkp);
@@ -317,7 +322,7 @@ int main()
                             
                             // readEnemyList(chain, "src/enemies.txt");
                             // prepare_enemies_list(enemies, chain, nbEnemies);
-
+                            p->hp = 100;
                             cp.x = chkp->posX;
                             cp.y = chkp->posY;
                             map_num = 0;
