@@ -45,7 +45,7 @@ SDL_Renderer* back2menu(menu_t* m, SDL_Renderer* r){
     m->credit.y = 400;
      
     TTF_Init();
-    m->font = TTF_OpenFont("src/arial.ttf",28);
+    //m->font = TTF_OpenFont("src/arial.ttf",28);
     SDL_Color cc = {0, 0, 0, 0};
     m->color = cc;
     m->j = charger_texte("Jouer", r, m->font, m->color);
@@ -71,6 +71,7 @@ void refresh_menu(SDL_Renderer* r, menu_t* m){
 
 void free_menu(menu_t* m){
     SDL_DestroyTexture(m->fond);
+    TTF_CloseFont(m->font);
     SDL_DestroyTexture(m->j);
     SDL_DestroyTexture(m->c);
     free(m);
@@ -88,12 +89,10 @@ void handle_menu(SDL_Event* e, menu_t* m){
                     if ((mx >= 490 && mx <= 790) && (my >= 200 && my <= 300))
                     {
                         m->state = 1;
-                        printf("Jouer, etat menu: %d\n", m->state);
                     }
                     if ((mx >= 490 && mx <= 790) && (my >= 400 && my <= 500))
                     {
                         m->state = 2;
-                        printf("Crédit, etat menu: %d\n", m->state);
                     }
                 }
                 break;

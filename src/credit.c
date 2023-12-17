@@ -31,7 +31,7 @@ SDL_Renderer* init_credit(credit_t* m, SDL_Renderer* r){
 }
 
 void refresh_credit(SDL_Renderer* r, credit_t* c){
-        SDL_Delay(33);
+        
         SDL_RenderClear(r);
         SDL_RenderCopy(r, c->fond, NULL, NULL);
         SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_BLEND);
@@ -52,6 +52,8 @@ void free_credit(credit_t* c){
         SDL_DestroyTexture(c->fond);
         SDL_DestroyTexture(c->j);
         SDL_DestroyTexture(c->c);
+        TTF_CloseFont(c->font);
+        
     }
     
     
@@ -59,7 +61,7 @@ void free_credit(credit_t* c){
 }
 
 void handle_credit(SDL_Event* e, credit_t* c){
-    //SDL_PollEvent(&e);
+
     int mx=0, my=0;
     switch (e->type)
     {
@@ -70,7 +72,6 @@ void handle_credit(SDL_Event* e, credit_t* c){
                     if ((mx >= 490 && mx <= 790) && (my >= 400 && my <= 500))
                     {
                         c->state = 1;
-                        printf("Crédit, etat credit: %d\n", c->state);
                     }
                 }
                 break;

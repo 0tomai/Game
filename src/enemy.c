@@ -104,6 +104,7 @@ void linkedCreate(enemy_t* e, int hp, int posX, int posY){
 void readEnemyList(enemy_t* e, char path[]){
     FILE* f;
     char c;
+    int neg = 1;
     char param[10];
     int isNumber = 0;
     int checkHP = 0;
@@ -119,12 +120,15 @@ void readEnemyList(enemy_t* e, char path[]){
         {
             isNumber = 1;
             c = fgetc(f);
+            
         }
         if (c== '/')
         {
             
             isNumber = 0;
             truc = atoi(param);
+            truc = truc * neg;
+            neg = 1;
             for (int j = 0; j < 10; j++) //reset le tableau de charactère pour en ajouter de nouveaux
             {
                 param[j] = '\0';
@@ -158,6 +162,10 @@ void readEnemyList(enemy_t* e, char path[]){
             {
                 param[i] = c;
                 i++;
+            }
+            else if (c == '-')
+            {
+                neg = -1;
             }
             else
             {
@@ -237,5 +245,14 @@ void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnem
         enemies[i] = enemies[i + 1];
     }
     (*nbEnemies)--;
+}
+
+
+void free_list(enemy_t *e){
+    if (!(e == NULL)){
+      free_list(e->next) ;
+      free(e);
+    }  
+    
 }
 

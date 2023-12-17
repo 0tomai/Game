@@ -31,5 +31,6 @@ void linkedCreate(enemy_t* e, int hp, int posX, int posY);
 void removeEnemy(enemy_t** head, enemy_t* target, SDL_Rect *enemies, int *nbEnemies, int index);
 void write_killed_enemies(char path[], int killed);
 void gravityE(SDL_Rect enemy);
+void free_list(enemy_t *e);
 
 #endif

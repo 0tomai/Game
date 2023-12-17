@@ -1,3 +1,5 @@
 hp:110/posx:410/posy:333/
 hp:234/posx:590/posy:30/
-hp:910/posx:500/posy:200/
+hp:410/posx:950/posy:60/
+hp:350/posx:800/posy:500/
+hp:-910/posx:50/posy:-200/

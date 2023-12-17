@@ -28,11 +28,6 @@ int main()
 
     SDL_Rect enemies[nbEnemies];
 
-    printf("%d, %d, %d\n", chain->hp, chain->posX, chain->posY);    
-    printf("%d, %d, %d\n", chain->next->hp, chain->next->posX, chain->next->posY);
-    printf("%d, %d, %d\n", chain->next->next->hp, chain->next->next->posX, chain->next->next->posY);
-
-
     nbCol = 0;
     nbUn= 0;
     tailleFichier(&nbCol, &nbLigne, &nbUn, map);
@@ -224,20 +219,24 @@ int main()
         }
         if (((abs((int)p->posX - cp.x) <= 32) && (abs(p->posY - cp.y) <= 32)) && game->state == 0)
         {
-            
             if (map_num < 1)
             {
                 strcpy(map, "src/mapp.txt");        
                 tailleFichier(&nbLigne, &nbCol, &nbUn, map);
                 reading(map, destR, chkp);
-                // free(chain);
-                // enemy_t * chain = malloc(sizeof(enemy_t));
-                // chain->hp = NULL; 
-                // chain->posX = NULL;
-                // chain->posY = NULL;
-                // chain->next = NULL;
-                // readEnemyList(chain, "src/enemies.txt");
-                // prepare_enemies_list(enemies, chain, nbEnemies);
+                if (chain->next != NULL)
+                {
+                    chain->hp = -1;
+                    chain->posX= -1;
+                    chain->posY=-1;
+                    free_list(chain->next);
+                    chain->next = NULL;
+                                
+                }
+                tailleFichier(&nbCol, &nbEnemies, &nbLigne, "src/enemies.txt");
+                readEnemyList(chain, "src/enemies.txt");
+                prepare_enemies_list(enemies, chain, nbEnemies);
+
                 cp.x = chkp->posX;
                 cp.y = chkp->posY;
                 map_num++;
@@ -313,16 +312,21 @@ int main()
                             strcpy(map, "src/map.txt");
                             tailleFichier(&nbLigne, &nbCol, &nbUn, map);
                             reading(map, destR, chkp);
-                            // tailleFichier(&nbCol, &nbEnemies, &nbUn, "src/enemies.txt");
-                            // free(chain);
-                            // chain->hp = NULL; 
-                            // chain->posX = NULL;
-                            // chain->posY = NULL;
-                            // chain->next = NULL;
+                            tailleFichier(&nbCol, &nbEnemies, &nbLigne, "src/enemies.txt");
                             
-                            // readEnemyList(chain, "src/enemies.txt");
-                            // prepare_enemies_list(enemies, chain, nbEnemies);
-                            p->hp = 100;
+                            if (chain->next != NULL)
+                            {
+                                chain->hp = -1;
+                                chain->posX= -1;
+                                chain->posY=-1;
+                                free_list(chain->next);
+                                
+                                chain->next = NULL;
+                            }
+                            
+                            readEnemyList(chain, "src/enemies.txt");
+                            prepare_enemies_list(enemies, chain, nbEnemies);
+                            p->hp = 1000;
                             cp.x = chkp->posX;
                             cp.y = chkp->posY;
                             map_num = 0;
@@ -486,7 +490,8 @@ int main()
     free_credit(c);
     free(p);
     free(chkp);
-    free(chain);
+    
+    free_list(chain);
     SDL_DestroyTexture(checkpoint);
     SDL_DestroyTexture(enemy);
     SDL_DestroyTexture(terrain);
