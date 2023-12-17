@@ -47,7 +47,8 @@ int main()
         fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
         return EXIT_FAILURE;
     }
-    /* On agit sur la fenêtre ici */
+    
+    //Allocation des differents elements du jeu
     SDL_Renderer* ecran;
 
     menu_t* m = malloc(sizeof(menu_t));
@@ -83,12 +84,15 @@ int main()
     float deltaTime;
     Uint32 currentTime = SDL_GetTicks();
 
+
+    //Permet d'avoir un deplacement fluide et non en crénaux
     deltaTime = (float)(currentTime - lastTime) / SDL_GetPerformanceFrequency();
 
     ecran = init_renderer(window, m);
 
     bool terminer = false;
     
+    //init de chaque texture necessaire au jeu
     SDL_Texture* enemy = charger_image("src/enemy.bmp", ecran);
     if (enemy == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
@@ -111,6 +115,7 @@ int main()
     if (checkpoint == NULL) {
     fprintf(stderr, "Erreur chargement texture : %s", SDL_GetError());
     }
+
     reading(map, destR, chkp);
     cp.x = chkp->posX;
     cp.y = chkp->posY;
@@ -125,17 +130,18 @@ int main()
 
     while(!terminer){
 
-        if (m->state == 0) // 
+        // Gestion des differents etats du menu, des credits et du jeu
+        if (m->state == 0) //On est sur le menu
         {
             refresh_menu(ecran, m);
         }
         
-        if (m->state == 2 && c->state == -1)
+        if (m->state == 2 && c->state == -1) //Init des credits
         {
             ecran = init_credit(c, ecran);
         }
 
-        if (m->state == 1 && game->state == -1)
+        if (m->state == 1 && game->state == -1) //Init du jeu
         {
             ecran = init_jeu(game, ecran, p);
         }
@@ -149,13 +155,13 @@ int main()
             back2menu(m, ecran);
             c->state = -1;
         }
-        if (game->state == 0)
+        if (game->state == 0) //Le jeu est en cours
         {
             refresh_jeu(ecran, game, terrain, checkpoint, destR, nbUn, &play, &cp ,joueur);
             print_enemies(enemies, nbEnemies, ecran, enemy);            
             SDL_RenderPresent(ecran);
         }
-        if (game->state == 1)
+        if (game->state == 1) //On met le jeu en pause pour revenir au menu
         {
             back2menu(m, ecran);
             game->state = -1;
@@ -170,6 +176,7 @@ int main()
         currentTime = SDL_GetTicks();
         deltaTime = (float)(currentTime - lastTime) / 1000.0f;
         collisionType = collisions(p, destR, nbUn);
+
         for(int i = 0; i < nbEnemies; i++)
         {
             collisionType2 = collisionsEnemy(enemies[i], destR, nbUn);
@@ -217,7 +224,8 @@ int main()
             machin = 0;
             p->nbJump = 0;
         }
-        if (((abs((int)p->posX - cp.x) <= 32) && (abs(p->posY - cp.y) <= 32)) && game->state == 0)
+
+        if (((abs((int)p->posX - cp.x) <= 32) && (abs(p->posY - cp.y) <= 32)) && game->state == 0) //Test la position du joueur par rapport à l'arrivée
         {
             if (map_num < 1)
             {
@@ -269,6 +277,8 @@ int main()
     
 
         lastTime = currentTime;
+
+        //Gestion des evenements
         SDL_PollEvent( &evenements );
         if (m->state == 0)
         {
@@ -395,7 +405,7 @@ int main()
                     break;
                 }
             }
-            // DEPLACEMENT DU JOUEUR
+            // DEPLACEMENT DU JOUEUR et GESTION COLLISIONS
             // right
             if (r && !p->isFighting){                
                 collisionType = collisions(p, destR, nbUn);
@@ -490,7 +500,6 @@ int main()
     free_credit(c);
     free(p);
     free(chkp);
-    
     free_list(chain);
     SDL_DestroyTexture(checkpoint);
     SDL_DestroyTexture(enemy);
