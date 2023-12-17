@@ -41,7 +41,7 @@ int main()
 
         return EXIT_FAILURE;
     }
-    window = SDL_CreateWindow("SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("Celestio, le Celeste bootleg en SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_ALWAYS_ON_TOP);
     if(NULL == window)
     {
         fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
