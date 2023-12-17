@@ -271,6 +271,7 @@ int main()
             startCombat(ecran, p, chainCopy, &chain, enemies, &nbEnemies, i, game, enemy, joueur);
             nbEnemiesKilled++;
         }else {
+            
             chainCopy = chain->next;
             }
         }
